@@ -11,4 +11,15 @@ if [ "${@: -2:1}" == "./bin/rails" ] && [ "${@: -1:1}" == "server" ]; then
   ./bin/rails db:prepare
 fi
 
+if [ -z "${SECRET_KEY_BASE:-}" ]; then
+  SECRET_FILE="/rails/storage/secret_key_base"
+  if [ -f "$SECRET_FILE" ]; then
+    export SECRET_KEY_BASE="$(cat "$SECRET_FILE")"
+  else
+    export SECRET_KEY_BASE="$(./bin/rails secret)"
+    mkdir -p "$(dirname "$SECRET_FILE")"
+    echo "$SECRET_KEY_BASE" > "$SECRET_FILE"
+  fi
+fi
+
 exec "${@}"

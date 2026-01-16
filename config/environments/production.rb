@@ -24,6 +24,9 @@ Rails.application.configure do
   # Store uploaded files on the local file system (replace for production).
   config.active_storage.service = :local
 
+  # Allow boot without master key for simple self-hosted installs.
+  config.require_master_key = false
+
   # Assume all access to the app is happening through a SSL-terminating reverse proxy.
   config.assume_ssl = true
 

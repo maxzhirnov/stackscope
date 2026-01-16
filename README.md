@@ -6,16 +6,16 @@ StackScope is a web dashboard for monitoring home servers and VPS nodes. It prov
 
 1. Copy env template:
    - `cp .env.example .env`
-2. Generate secrets:
-   - `SECRET_KEY_BASE`: `bin/rails secret`
-   - `RAILS_MASTER_KEY`: from `config/master.key`
-3. Fill `.env`:
-   - `SECRET_KEY_BASE`, `RAILS_MASTER_KEY`
+2. Fill `.env`:
    - `STACKSCOPE_ADMIN_USER`, `STACKSCOPE_ADMIN_PASSWORD`
-4. Start:
+3. Start:
    - `docker compose up -d`
-5. Open:
+4. Open:
    - `http://localhost:3000`
+
+Secrets:
+- `SECRET_KEY_BASE` is auto-generated on first boot and persisted in the shared storage volume.
+- `RAILS_MASTER_KEY` is not required for the default self-hosted setup.
 
 ## Goals
 
@@ -164,9 +164,7 @@ StackScope uses a single admin account. You can:
 
 1. Copy env template:
    - `cp .env.example .env`
-2. Set required secrets in `.env`:
-   - `SECRET_KEY_BASE` (generate with `bin/rails secret`)
-   - `RAILS_MASTER_KEY` (from `config/master.key`)
+2. Set admin credentials in `.env`:
    - `STACKSCOPE_ADMIN_USER`, `STACKSCOPE_ADMIN_PASSWORD`
 3. Start services:
    - `docker compose up -d`
@@ -176,6 +174,13 @@ StackScope uses a single admin account. You can:
 Notes:
 - `web` serves the UI; `jobs` runs background checks.
 - SQLite database and uploads are stored in Docker volumes.
+
+## Deploy on server (Docker)
+
+1. Pull latest image:
+   - `docker compose pull`
+2. Start or update services:
+   - `docker compose up -d`
 
 ## Open Questions
 
