@@ -4,8 +4,9 @@ StackScope is a web dashboard for monitoring home servers and VPS nodes. It prov
 
 ## Quick start (Docker)
 
-1. Copy env template:
-   - `cp .env.example .env`
+1. Download compose and env:
+   - `curl -fsSL https://raw.githubusercontent.com/maxzhirnov/stackscope/main/docker-compose.yml -o docker-compose.yml`
+   - `curl -fsSL https://raw.githubusercontent.com/maxzhirnov/stackscope/main/.env.example -o .env`
 2. Fill `.env`:
    - `STACKSCOPE_ADMIN_USER`, `STACKSCOPE_ADMIN_PASSWORD`
 3. Start:
@@ -165,8 +166,9 @@ StackScope uses a single admin account. You can:
 
 ## Docker Compose (self-hosted)
 
-1. Copy env template:
-   - `cp .env.example .env`
+1. Download compose and env:
+   - `curl -fsSL https://raw.githubusercontent.com/maxzhirnov/stackscope/main/docker-compose.yml -o docker-compose.yml`
+   - `curl -fsSL https://raw.githubusercontent.com/maxzhirnov/stackscope/main/.env.example -o .env`
 2. Set admin credentials in `.env`:
    - `STACKSCOPE_ADMIN_USER`, `STACKSCOPE_ADMIN_PASSWORD`
 3. Start services:
