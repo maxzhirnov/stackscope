@@ -22,8 +22,8 @@ Multi-platform binaries (local build):
 ./build.sh
 ```
 
-Prebuilt binaries will be published in GitHub Releases:
-`https://github.com/maxzhirnov/stackscope/releases`
+Prebuilt binaries:
+`https://github.com/maxzhirnov/stackscope/releases/tag/v0.0.1`
 
 ## Run
 

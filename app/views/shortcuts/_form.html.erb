@@ -20,12 +20,12 @@
       <%= form.url_field :url, placeholder: "http://grafana.local", required: true %>
     </label>
     <label>
-      <span>Emoji icon</span>
-      <%= form.text_field :icon, placeholder: "📊" %>
-    </label>
-    <label>
       <span>Image</span>
       <%= form.file_field :icon_image, accept: "image/*" %>
+    </label>
+    <label>
+      <span>Image URL</span>
+      <%= form.url_field :icon_url, placeholder: "https://example.com/icon.png" %>
     </label>
     <label>
       <span>Category</span>

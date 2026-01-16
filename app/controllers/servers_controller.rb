@@ -37,6 +37,7 @@ class ServersController < ApplicationController
   def check_now
     PingServerJob.perform_now(@server.id)
     FetchMetricsJob.perform_now(@server.id)
+    @server.reload
     respond_to do |format|
       format.turbo_stream do
         partial = params[:source] == "dashboard" ? "dashboard/server_card" : "servers/server_card"

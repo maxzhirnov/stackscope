@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
   root "dashboard#index"
+  resource :session, only: [:new, :create, :destroy]
+  resource :setup, only: [:new, :create], controller: "setup"
   post "timezone" => "timezone#update"
   resources :servers, except: [:show] do
     post :check_now, on: :member

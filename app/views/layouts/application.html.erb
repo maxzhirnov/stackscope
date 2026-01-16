@@ -27,6 +27,9 @@
       <div class="site-logo">
         <%= link_to "StackScope", root_path %>
       </div>
+      <% if current_admin %>
+        <%= button_to "Sign out", session_path, method: :delete, class: "button ghost", form: { class: "inline-form" } %>
+      <% end %>
     </header>
     <div id="toast-container" class="toast-container">
       <% if notice.present? %>

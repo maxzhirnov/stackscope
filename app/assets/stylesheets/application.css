@@ -43,6 +43,10 @@ body {
   color: var(--ink);
 }
 
+.inline-form {
+  margin: 0;
+}
+
 .toast-container {
   position: fixed;
   top: 16px;
@@ -182,10 +186,10 @@ p {
 .card {
   background: var(--card);
   border-radius: var(--radius);
-  padding: 20px;
+  padding: 16px;
   box-shadow: var(--shadow);
   display: grid;
-  gap: 18px;
+  gap: 12px;
   position: relative;
   overflow: hidden;
 }
@@ -248,7 +252,7 @@ p {
 .metrics {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 12px;
+  gap: 8px;
 }
 
 .metrics .label {
@@ -261,7 +265,7 @@ p {
 }
 
 .metrics .value {
-  font-size: 1.1rem;
+  font-size: 1rem;
   font-weight: 600;
 }
 
@@ -269,7 +273,7 @@ p {
   display: flex;
   justify-content: space-between;
   color: var(--muted);
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   gap: 12px;
 }
 
@@ -277,6 +281,57 @@ p {
   display: grid;
   gap: 16px;
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+}
+
+.shortcut-grid--icons {
+  grid-template-columns: repeat(5, max-content);
+  gap: 24px;
+  justify-content: start;
+}
+
+.shortcut-grid--icons .shortcut {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  padding: 8px 6px;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 12px;
+  justify-self: center;
+  width: max-content;
+}
+
+@media (max-width: 900px) {
+  .shortcut-grid--icons {
+    grid-template-columns: repeat(3, max-content);
+  }
+}
+
+@media (max-width: 600px) {
+  .shortcut-grid--icons {
+    grid-template-columns: repeat(2, max-content);
+  }
+}
+
+.shortcut-grid--icons .shortcut:hover {
+  transform: translateY(-2px);
+}
+
+.shortcut-grid--icons .shortcut .icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 18px;
+  font-size: 1.6rem;
+}
+
+.shortcut-grid--icons .shortcut h3 {
+  margin: 0;
+  font-size: 0.95rem;
+}
+
+.shortcut-grid--icons .shortcut .muted {
+  display: none;
 }
 
 .shortcut {
@@ -301,12 +356,22 @@ p {
   width: 46px;
   height: 46px;
   border-radius: 12px;
-  background: var(--accent);
   display: grid;
   place-items: center;
   font-size: 1.3rem;
   color: #fff;
   overflow: hidden;
+  position: relative;
+  flex: 0 0 auto;
+}
+
+.shortcut .icon .fallback-letter {
+  font-weight: 700;
+  z-index: 1;
+}
+
+.shortcut .icon.has-image .fallback-letter {
+  opacity: 0;
 }
 
 .empty-state {
@@ -391,11 +456,74 @@ p {
   background: #fff;
 }
 
-.shortcut .icon img {
+.form input[type="file"] {
   width: 100%;
-  height: 100%;
-  object-fit: cover;
+  padding: 8px 10px;
+  background: #fff;
+}
+
+.shortcut .icon img,
+.shortcut .icon .icon-image {
+  position: absolute;
+  inset: 3px;
+  width: calc(100% - 6px);
+  height: calc(100% - 6px);
+  object-fit: contain;
+  border-radius: 10px;
+  background: #fff;
+  z-index: 2;
+}
+
+.shortcut-url {
+  position: relative;
+  cursor: default;
+  display: inline-block;
+}
+
+.shortcut-url-text {
+  display: block;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.shortcut-url::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  left: 0;
+  top: 120%;
+  background: rgba(17, 17, 17, 0.92);
+  color: #fff;
+  padding: 8px 12px;
   border-radius: 12px;
+  font-size: 0.78rem;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  max-width: 360px;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-6px);
+  transition: opacity 0.15s ease, transform 0.15s ease;
+  z-index: 20;
+  line-height: 1.3;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.25);
+}
+
+.shortcut-url:hover::after {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.shortcut-details {
+  min-width: 0;
+  flex: 1 1 auto;
+}
+
+.shortcut .toolbar {
+  margin-left: auto;
+  align-self: flex-start;
 }
 
 .form-errors {

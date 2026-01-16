@@ -1,0 +1,28 @@
+<div class="page">
+  <header class="section-header">
+    <div>
+      <h1>Set up admin access</h1>
+      <p>Create the single admin account for this StackScope instance.</p>
+    </div>
+  </header>
+
+  <div class="form-card">
+    <%= form_with url: setup_path, class: "form" do |form| %>
+      <label>
+        <span>Username</span>
+        <%= form.text_field :username, required: true, autofocus: true, autocomplete: "username" %>
+      </label>
+      <label>
+        <span>Password</span>
+        <%= form.password_field :password, required: true, autocomplete: "new-password" %>
+      </label>
+      <label>
+        <span>Confirm password</span>
+        <%= form.password_field :password_confirmation, required: true, autocomplete: "new-password" %>
+      </label>
+      <div class="toolbar">
+        <%= form.submit "Create admin", class: "button" %>
+      </div>
+    <% end %>
+  </div>
+</div>

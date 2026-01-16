@@ -1,7 +1,6 @@
 <div class="page">
   <header class="section-header">
     <div>
-      <p class="eyebrow">StackScope</p>
       <h1>Shortcuts</h1>
       <p>Quick links to your favorite services.</p>
     </div>
@@ -14,18 +13,23 @@
   <div class="shortcut-grid">
     <% if @shortcuts.any? %>
       <% @shortcuts.each do |shortcut| %>
+        <% has_image = shortcut.icon_image.attached? || shortcut.icon_url.present? %>
         <div class="shortcut">
-          <span class="icon">
+          <span class="icon <%= "has-image" if has_image %>"
+                style="background-color: <%= has_image ? "#ffffff" : shortcut.icon_background_color %>;">
+            <span class="fallback-letter"><%= shortcut.name.to_s[0]&.upcase %></span>
             <% if shortcut.icon_image.attached? %>
-              <%= image_tag shortcut.icon_image, alt: shortcut.name %>
-            <% else %>
-              <%= shortcut.icon.presence || "↗" %>
+              <%= image_tag shortcut.icon_image, alt: shortcut.name, class: "icon-image" %>
+            <% elsif shortcut.icon_url.present? %>
+              <%= image_tag shortcut.icon_url, alt: shortcut.name, class: "icon-image" %>
             <% end %>
           </span>
-          <div>
+          <div class="shortcut-details">
             <h3><%= shortcut.name %></h3>
             <p class="muted"><%= shortcut.category %></p>
-            <p class="muted"><%= shortcut.url %></p>
+            <span class="muted shortcut-url" data-tooltip="<%= shortcut.url %>">
+              <span class="shortcut-url-text"><%= shortcut.display_url %></span>
+            </span>
           </div>
           <div class="toolbar">
             <%= link_to "Edit", edit_shortcut_path(shortcut), class: "button ghost" %>

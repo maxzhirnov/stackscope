@@ -48,15 +48,18 @@
       <p>Fast access to your services.</p>
     </div>
 
-    <div class="shortcut-grid">
+    <div class="shortcut-grid shortcut-grid--icons">
       <% if @shortcuts.any? %>
         <% @shortcuts.each do |shortcut| %>
+          <% has_image = shortcut.icon_image.attached? || shortcut.icon_url.present? %>
           <a class="shortcut" href="<%= shortcut.url %>" target="_blank" rel="noreferrer">
-            <span class="icon">
+            <span class="icon <%= "has-image" if has_image %>"
+                  style="background-color: <%= has_image ? "#ffffff" : shortcut.icon_background_color %>;">
+              <span class="fallback-letter"><%= shortcut.name.to_s[0]&.upcase %></span>
               <% if shortcut.icon_image.attached? %>
-                <%= image_tag shortcut.icon_image, alt: shortcut.name %>
-              <% else %>
-                <%= shortcut.icon.presence || "↗" %>
+                <%= image_tag shortcut.icon_image, alt: shortcut.name, class: "icon-image" %>
+              <% elsif shortcut.icon_url.present? %>
+                <%= image_tag shortcut.icon_url, alt: shortcut.name, class: "icon-image" %>
               <% end %>
             </span>
             <div>

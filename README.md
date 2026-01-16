@@ -2,6 +2,21 @@
 
 StackScope is a web dashboard for monitoring home servers and VPS nodes. It provides a unified list of servers, real-time status (ping), and lightweight system metrics via a tiny agent. It also includes shortcut tiles for quick access to services (Homarr-style, but integrated).
 
+## Quick start (Docker)
+
+1. Copy env template:
+   - `cp .env.example .env`
+2. Generate secrets:
+   - `SECRET_KEY_BASE`: `bin/rails secret`
+   - `RAILS_MASTER_KEY`: from `config/master.key`
+3. Fill `.env`:
+   - `SECRET_KEY_BASE`, `RAILS_MASTER_KEY`
+   - `STACKSCOPE_ADMIN_USER`, `STACKSCOPE_ADMIN_PASSWORD`
+4. Start:
+   - `docker compose up -d`
+5. Open:
+   - `http://localhost:3000`
+
 ## Goals
 
 - Single web UI that works well on desktop and mobile.
@@ -95,7 +110,8 @@ Notes:
 - `collected_at` should be RFC3339.
 - The web app stores the payload as a new `MetricSample`.
 
-See `agent/README.md` for build and run details of the Go agent.
+See `agent/README.md` for build and run details of the Go agent, plus releases:
+`https://github.com/maxzhirnov/stackscope/releases/tag/v0.0.1`.
 
 ## Status Flow
 
@@ -118,8 +134,17 @@ See `agent/README.md` for build and run details of the Go agent.
 ## Security (initial scope)
 
 - Agent should be bound to a trusted network or protected by token.
-- Web app should store agent token per server (future).
+- Web app stores agent token per server.
 - No public exposure by default.
+
+## Authentication
+
+StackScope uses a single admin account. You can:
+
+- Create it via the UI on first launch (`/setup`).
+- Or set env vars on first boot:
+  - `STACKSCOPE_ADMIN_USER`
+  - `STACKSCOPE_ADMIN_PASSWORD`
 
 ## Roadmap (next)
 
@@ -134,6 +159,23 @@ See `agent/README.md` for build and run details of the Go agent.
 1. `bundle install`
 2. `bin/rails db:create db:migrate`
 3. `bin/rails s`
+
+## Docker Compose (self-hosted)
+
+1. Copy env template:
+   - `cp .env.example .env`
+2. Set required secrets in `.env`:
+   - `SECRET_KEY_BASE` (generate with `bin/rails secret`)
+   - `RAILS_MASTER_KEY` (from `config/master.key`)
+   - `STACKSCOPE_ADMIN_USER`, `STACKSCOPE_ADMIN_PASSWORD`
+3. Start services:
+   - `docker compose up -d`
+4. Open:
+   - `http://localhost:3000`
+
+Notes:
+- `web` serves the UI; `jobs` runs background checks.
+- SQLite database and uploads are stored in Docker volumes.
 
 ## Open Questions
 

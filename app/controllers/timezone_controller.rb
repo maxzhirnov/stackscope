@@ -1,4 +1,7 @@
 class TimezoneController < ApplicationController
+  skip_before_action :require_login
+  skip_before_action :ensure_admin_credentials
+
   def update
     zone = params[:timezone]
     if zone.present? && ActiveSupport::TimeZone[zone]
