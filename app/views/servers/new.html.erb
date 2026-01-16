@@ -1,0 +1,27 @@
+<div class="page">
+  <header class="section-header">
+    <div>
+      <p class="eyebrow">StackScope</p>
+      <h1>New server</h1>
+      <p>Add a new node and point it to the agent.</p>
+    </div>
+    <div class="toolbar">
+      <%= link_to "Back", servers_path, class: "button ghost" %>
+    </div>
+  </header>
+
+  <div class="form-card">
+    <%= render "form", server: @server %>
+  </div>
+
+  <div class="note">
+    <h3>How to install the agent</h3>
+    <ol>
+      <li>Build the binary: <code>cd agent &amp;&amp; go build -o stackscope-agent</code></li>
+      <li>Run on the server: <code>STACKSCOPE_TOKEN="secret" ./stackscope-agent -addr ":9100"</code></li>
+      <li>Set Agent URL to: <code>http://&lt;ip&gt;:9100/metrics</code></li>
+      <li>If you use a token, set it in the Agent token field.</li>
+    </ol>
+    <p>Status checks use TCP to the port (if set), otherwise port 80.</p>
+  </div>
+</div>

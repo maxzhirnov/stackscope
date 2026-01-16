@@ -1,0 +1,21 @@
+#!/usr/bin/env ruby
+require "fileutils"
+
+processes = []
+
+begin
+  processes << Process.spawn("./bin/rails", "server", *ARGV)
+  processes << Process.spawn("./bin/jobs")
+
+  trap("INT") { processes.each { |pid| Process.kill("INT", pid) } }
+  trap("TERM") { processes.each { |pid| Process.kill("TERM", pid) } }
+
+  processes.each { |pid| Process.wait(pid) }
+ensure
+  processes.each do |pid|
+    begin
+      Process.kill("TERM", pid)
+    rescue Errno::ESRCH
+    end
+  end
+end

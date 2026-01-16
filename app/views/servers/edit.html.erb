@@ -1,0 +1,24 @@
+<div class="page">
+  <header class="section-header">
+    <div>
+      <p class="eyebrow">StackScope</p>
+      <h1>Edit server</h1>
+      <p>Update the address or agent settings.</p>
+    </div>
+    <div class="toolbar">
+      <%= link_to "Back", servers_path, class: "button ghost" %>
+    </div>
+  </header>
+
+  <div class="form-card">
+    <%= render "form", server: @server %>
+    <div class="toolbar">
+      <%= button_to "Delete server", server_path(@server), method: :delete, class: "button ghost", data: { turbo_confirm: "Delete this server?" } %>
+    </div>
+  </div>
+
+  <div class="note">
+    <h3>Agent hint</h3>
+    <p>Agent URL must point to <code>/metrics</code>, for example <code>http://10.0.0.5:9100/metrics</code>.</p>
+  </div>
+</div>

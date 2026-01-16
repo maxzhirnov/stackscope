@@ -1,0 +1,42 @@
+<div class="page">
+  <header class="section-header">
+    <div>
+      <p class="eyebrow">StackScope</p>
+      <h1>Shortcuts</h1>
+      <p>Quick links to your favorite services.</p>
+    </div>
+    <div class="toolbar">
+      <%= link_to "Add shortcut", new_shortcut_path, class: "button" %>
+      <%= link_to "Back to dashboard", root_path, class: "button ghost" %>
+    </div>
+  </header>
+
+  <div class="shortcut-grid">
+    <% if @shortcuts.any? %>
+      <% @shortcuts.each do |shortcut| %>
+        <div class="shortcut">
+          <span class="icon">
+            <% if shortcut.icon_image.attached? %>
+              <%= image_tag shortcut.icon_image, alt: shortcut.name %>
+            <% else %>
+              <%= shortcut.icon.presence || "↗" %>
+            <% end %>
+          </span>
+          <div>
+            <h3><%= shortcut.name %></h3>
+            <p class="muted"><%= shortcut.category %></p>
+            <p class="muted"><%= shortcut.url %></p>
+          </div>
+          <div class="toolbar">
+            <%= link_to "Edit", edit_shortcut_path(shortcut), class: "button ghost" %>
+          </div>
+        </div>
+      <% end %>
+    <% else %>
+      <article class="empty-state">
+        <h3>No shortcuts yet</h3>
+        <p>Add your first service and save fast access.</p>
+      </article>
+    <% end %>
+  </div>
+</div>

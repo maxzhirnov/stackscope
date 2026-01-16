@@ -1,0 +1,19 @@
+<div class="page">
+  <header class="section-header">
+    <div>
+      <p class="eyebrow">StackScope</p>
+      <h1>Edit shortcut</h1>
+      <p>Update the name, URL, or icon.</p>
+    </div>
+    <div class="toolbar">
+      <%= link_to "Back", shortcuts_path, class: "button ghost" %>
+    </div>
+  </header>
+
+  <div class="form-card">
+    <%= render "form", shortcut: @shortcut %>
+    <div class="toolbar">
+      <%= button_to "Delete shortcut", shortcut_path(@shortcut), method: :delete, class: "button ghost", data: { turbo_confirm: "Delete this shortcut?" } %>
+    </div>
+  </div>
+</div>

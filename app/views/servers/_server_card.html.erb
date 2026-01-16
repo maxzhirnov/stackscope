@@ -1,0 +1,30 @@
+<div id="<%= dom_id(server, :card) %>">
+  <article class="card">
+    <div class="card-top">
+      <div>
+        <h3><%= server.name %></h3>
+        <p class="muted"><%= server.display_host %></p>
+        <p class="muted"><%= server.agent_url.presence || "agent not set" %></p>
+      </div>
+      <div class="status <%= server.status == "online" ? "ok" : "warn" %>">
+        <span></span>
+        <%= server.status.presence || "unknown" %>
+        <% if server.ping_latency_ms.present? %>
+          <small><%= server.ping_latency_ms %>ms</small>
+        <% end %>
+      </div>
+    </div>
+    <div class="card-meta">
+      <span>Ping: <%= server.last_ping_at ? l(server.last_ping_at, format: :short) : "—" %></span>
+      <span>Metrics: <%= server.last_metrics_at ? l(server.last_metrics_at, format: :short) : "—" %></span>
+    </div>
+    <div class="toolbar">
+      <%= button_to "Check now",
+                    check_now_server_path(server, source: "servers"),
+                    method: :post,
+                    class: "button",
+                    form: { data: { turbo_stream: true } } %>
+      <%= link_to "Edit", edit_server_path(server), class: "button ghost" %>
+    </div>
+  </article>
+</div>

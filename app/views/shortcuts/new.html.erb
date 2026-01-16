@@ -1,0 +1,16 @@
+<div class="page">
+  <header class="section-header">
+    <div>
+      <p class="eyebrow">StackScope</p>
+      <h1>New shortcut</h1>
+      <p>Add a link to a service or dashboard.</p>
+    </div>
+    <div class="toolbar">
+      <%= link_to "Back", shortcuts_path, class: "button ghost" %>
+    </div>
+  </header>
+
+  <div class="form-card">
+    <%= render "form", shortcut: @shortcut %>
+  </div>
+</div>

@@ -1,0 +1,76 @@
+<div class="page">
+  <header class="hero">
+    <div>
+      <h1>Home servers and VPS in one frame.</h1>
+      <p class="lead">
+        Real-time pings and metrics. Quick jumps to your services, always within reach.
+      </p>
+      <div class="toolbar">
+        <%= link_to "Manage servers", servers_path, class: "button" %>
+        <%= link_to "Manage shortcuts", shortcuts_path, class: "button ghost" %>
+      </div>
+    </div>
+    <div class="hero-panel">
+      <div class="hero-stat">
+        <span class="label">Servers</span>
+        <span class="value"><%= @servers.size %></span>
+      </div>
+      <div class="hero-stat">
+        <span class="label">Shortcuts</span>
+        <span class="value"><%= @shortcuts.size %></span>
+      </div>
+    </div>
+  </header>
+
+  <section class="section">
+    <div class="section-header">
+      <h2>Servers</h2>
+      <p>Nodes and latest metrics at a glance.</p>
+    </div>
+
+    <div class="card-grid">
+      <% if @servers.any? %>
+        <% @servers.each do |server| %>
+          <%= render "dashboard/server_card", server: server %>
+        <% end %>
+      <% else %>
+        <article class="empty-state">
+          <h3>No servers yet</h3>
+          <p>Add your first node to see status and metrics.</p>
+        </article>
+      <% end %>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-header">
+      <h2>Shortcuts</h2>
+      <p>Fast access to your services.</p>
+    </div>
+
+    <div class="shortcut-grid">
+      <% if @shortcuts.any? %>
+        <% @shortcuts.each do |shortcut| %>
+          <a class="shortcut" href="<%= shortcut.url %>" target="_blank" rel="noreferrer">
+            <span class="icon">
+              <% if shortcut.icon_image.attached? %>
+                <%= image_tag shortcut.icon_image, alt: shortcut.name %>
+              <% else %>
+                <%= shortcut.icon.presence || "↗" %>
+              <% end %>
+            </span>
+            <div>
+              <h3><%= shortcut.name %></h3>
+              <p class="muted"><%= shortcut.category %></p>
+            </div>
+          </a>
+        <% end %>
+      <% else %>
+        <article class="empty-state">
+          <h3>No shortcuts yet</h3>
+          <p>Add links to open your favorite services in one tap.</p>
+        </article>
+      <% end %>
+    </div>
+  </section>
+</div>

@@ -1,0 +1,47 @@
+<% latest = server.metric_samples.max_by(&:collected_at) %>
+<div id="<%= dom_id(server, :card) %>">
+  <article class="card">
+    <div class="card-top">
+      <div>
+        <h3><%= server.name %></h3>
+        <p class="muted"><%= server.display_host %></p>
+      </div>
+      <div class="status <%= server.status == "online" ? "ok" : "warn" %>">
+        <span></span>
+        <%= server.status.presence || "unknown" %>
+        <% if server.ping_latency_ms.present? %>
+          <small><%= server.ping_latency_ms %>ms</small>
+        <% end %>
+      </div>
+    </div>
+    <div class="metrics">
+      <div>
+        <span class="label">CPU</span>
+        <span class="value"><%= latest&.cpu_usage || "—" %></span>
+      </div>
+      <div>
+        <span class="label">RAM</span>
+        <span class="value"><%= latest&.memory_usage || "—" %></span>
+      </div>
+      <div>
+        <span class="label">Disk</span>
+        <span class="value"><%= latest&.disk_usage || "—" %></span>
+      </div>
+      <div>
+        <span class="label">Load</span>
+        <span class="value"><%= latest&.load_avg || "—" %></span>
+      </div>
+    </div>
+    <div class="card-meta">
+      <span>Ping: <%= server.last_ping_at ? l(server.last_ping_at, format: :short) : "—" %></span>
+      <span>Metrics: <%= server.last_metrics_at ? l(server.last_metrics_at, format: :short) : "—" %></span>
+    </div>
+    <div class="toolbar">
+      <%= button_to "Check now",
+                    check_now_server_path(server, source: "dashboard"),
+                    method: :post,
+                    class: "button ghost",
+                    form: { data: { turbo_stream: true } } %>
+    </div>
+  </article>
+</div>

@@ -1,0 +1,43 @@
+<%= form_with model: server, class: "form" do |form| %>
+  <% if server.errors.any? %>
+    <div class="form-errors">
+      <h3>Check the fields</h3>
+      <ul>
+        <% server.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="form-grid">
+    <label>
+      <span>Server name</span>
+      <%= form.text_field :name, placeholder: "Home Lab", required: true %>
+    </label>
+    <label>
+      <span>Host (IP/DNS)</span>
+      <%= form.text_field :host, placeholder: "192.168.1.10", required: true %>
+    </label>
+    <label>
+      <span>Port</span>
+      <%= form.number_field :port, min: 1, max: 65535, placeholder: "22" %>
+    </label>
+    <label>
+      <span>Agent URL</span>
+      <%= form.url_field :agent_url, placeholder: "http://192.168.1.10:9100/metrics" %>
+    </label>
+    <label>
+      <span>Agent token</span>
+      <%= form.password_field :agent_token, placeholder: "optional", autocomplete: "off" %>
+    </label>
+    <label>
+      <span>Ping interval (sec)</span>
+      <%= form.number_field :ping_interval_seconds, min: 10, max: 3600, placeholder: "60" %>
+    </label>
+  </div>
+
+  <div class="toolbar">
+    <%= form.submit class: "button" %>
+  </div>
+<% end %>

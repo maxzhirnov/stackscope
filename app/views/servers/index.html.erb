@@ -1,0 +1,26 @@
+<div class="page">
+  <header class="section-header">
+    <div>
+      <p class="eyebrow">StackScope</p>
+      <h1>Servers</h1>
+      <p>Manage monitored nodes and connection settings.</p>
+    </div>
+    <div class="toolbar">
+      <%= link_to "Add server", new_server_path, class: "button" %>
+      <%= link_to "Back to dashboard", root_path, class: "button ghost" %>
+    </div>
+  </header>
+
+  <div class="card-grid">
+    <% if @servers.any? %>
+      <% @servers.each do |server| %>
+        <%= render "servers/server_card", server: server %>
+      <% end %>
+    <% else %>
+      <article class="empty-state">
+        <h3>No servers yet</h3>
+        <p>Add a server to start monitoring.</p>
+      </article>
+    <% end %>
+  </div>
+</div>
