@@ -17,6 +17,9 @@ Secrets:
 - `SECRET_KEY_BASE` is auto-generated on first boot and persisted in the shared storage volume.
 - `RAILS_MASTER_KEY` is not required for the default self-hosted setup.
 
+Notes:
+- If your password contains `$`, escape it as `$$` in `.env` (Docker Compose treats `$VAR` as interpolation).
+
 ## Goals
 
 - Single web UI that works well on desktop and mobile.
