@@ -38,11 +38,14 @@ fi
 
 version="$(prompt "Release version" "$DEFAULT_VERSION")"
 install_dir="$(prompt "Install directory" "$DEFAULT_DIR")"
+install_dir="$(eval echo "$install_dir")"
+if [ ! -d "$install_dir" ]; then
+  mkdir -p "$install_dir"
+fi
+install_dir="$(cd "$install_dir" && pwd)"
 port="$(prompt "Listen port" "$DEFAULT_PORT")"
 
 read -r -p "Agent token (leave blank for none): " token
-
-mkdir -p "$install_dir"
 
 binary_url="https://github.com/maxzhirnov/stackscope/releases/download/${version}/stackscope-agent-${arch}"
 binary_path="${install_dir}/stackscope-agent"
@@ -61,13 +64,16 @@ After=network.target
 Type=simple
 WorkingDirectory=${install_dir}
 ExecStart=${binary_path} -addr ":${port}"
-Environment=STACKSCOPE_TOKEN=${token}
 Restart=always
 RestartSec=3
 
 [Install]
 WantedBy=multi-user.target
 EOF
+
+if [ -n "$token" ]; then
+  printf '\nEnvironment=STACKSCOPE_TOKEN=%s\n' "$token" >>"$service_path"
+fi
 
 systemctl daemon-reload
 systemctl enable --now stackscope-agent

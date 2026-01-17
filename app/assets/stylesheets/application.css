@@ -209,6 +209,7 @@ p {
   justify-content: space-between;
   align-items: flex-start;
   gap: 12px;
+  flex-wrap: wrap;
 }
 
 .muted {
@@ -224,6 +225,7 @@ p {
   font-size: 0.85rem;
   text-transform: uppercase;
   letter-spacing: 0.08em;
+  flex: 0 0 auto;
 }
 
 .status small {
@@ -287,6 +289,7 @@ p {
   color: var(--muted);
   font-size: 0.75rem;
   gap: 12px;
+  flex-wrap: wrap;
 }
 
 .shortcut-grid {
