@@ -25,6 +25,13 @@ Multi-platform binaries (local build):
 Prebuilt binaries:
 `https://github.com/maxzhirnov/stackscope/releases/tag/v0.0.2`
 
+## One-line install (Linux)
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/maxzhirnov/stackscope/main/agent/install.sh -o install.sh
+sudo bash install.sh
+```
+
 ## Run
 
 ```bash
