@@ -212,6 +212,28 @@ p {
   flex-wrap: wrap;
 }
 
+.card--dashboard .card-top {
+  flex-wrap: nowrap;
+  align-items: center;
+  position: relative;
+  padding-right: 110px;
+}
+
+.card--dashboard .card-title {
+  min-width: 0;
+}
+
+.card--dashboard .card-title h3,
+.card--dashboard .card-title .muted {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.card--dashboard .card-title .muted {
+  max-width: 180px;
+}
+
 .muted {
   color: var(--muted);
   font-size: 0.9rem;
@@ -226,6 +248,14 @@ p {
   text-transform: uppercase;
   letter-spacing: 0.08em;
   flex: 0 0 auto;
+}
+
+.card--dashboard .status {
+  position: absolute;
+  top: 0;
+  right: 0;
+  white-space: nowrap;
+  font-size: 0.78rem;
 }
 
 .status small {
@@ -290,6 +320,15 @@ p {
   font-size: 0.75rem;
   gap: 12px;
   flex-wrap: wrap;
+}
+
+.card--dashboard .card-meta {
+  flex-wrap: wrap;
+  font-size: 0.7rem;
+}
+
+.card--dashboard .card-meta span {
+  white-space: normal;
 }
 
 .shortcut-grid {
