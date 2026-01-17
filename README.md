@@ -187,6 +187,19 @@ Notes:
 2. Start or update services:
    - `docker compose up -d`
 
+## Auto-update with Watchtower
+
+1. Create `docker-compose.watchtower.yml`:
+   - `curl -fsSL https://raw.githubusercontent.com/maxzhirnov/stackscope/main/docker-compose.watchtower.yml -o docker-compose.watchtower.yml`
+2. Edit `WATCHTOWER_NOTIFICATION_URL`:
+   - `telegram://<BOT_TOKEN>@telegram?channels=<CHAT_ID>`
+3. Start Watchtower:
+   - `docker compose -f docker-compose.yml -f docker-compose.watchtower.yml up -d`
+
+Notes:
+- Only containers with label `com.centurylinklabs.watchtower.enable=true` are updated.
+- Watchtower checks every 15 minutes.
+
 ## Open Questions
 
 - Polling interval defaults (e.g., 30s vs 60s)?
