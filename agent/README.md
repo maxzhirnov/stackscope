@@ -23,7 +23,7 @@ Multi-platform binaries (local build):
 ```
 
 Prebuilt binaries:
-`https://github.com/maxzhirnov/stackscope/releases/tag/v0.0.1`
+`https://github.com/maxzhirnov/stackscope/releases/tag/v0.0.2`
 
 ## Run
 
@@ -35,6 +35,30 @@ With token:
 
 ```bash
 STACKSCOPE_TOKEN="secret" ./stackscope-agent -addr ":9100"
+```
+
+## Systemd (auto-restart)
+
+```bash
+sudo tee /etc/systemd/system/stackscope-agent.service > /dev/null <<EOF
+[Unit]
+Description=StackScope Agent
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/opt/stackscope-agent
+ExecStart=/opt/stackscope-agent/stackscope-agent -addr ":9100"
+Environment=STACKSCOPE_TOKEN=secret
+Restart=always
+RestartSec=3
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+sudo systemctl daemon-reload
+sudo systemctl enable --now stackscope-agent
 ```
 
 ## Response Example

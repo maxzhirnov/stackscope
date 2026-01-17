@@ -115,7 +115,7 @@ Notes:
 - The web app stores the payload as a new `MetricSample`.
 
 See `agent/README.md` for build and run details of the Go agent, plus releases:
-`https://github.com/maxzhirnov/stackscope/releases/tag/v0.0.1`.
+`https://github.com/maxzhirnov/stackscope/releases/tag/v0.0.2`.
 
 ## Status Flow
 
