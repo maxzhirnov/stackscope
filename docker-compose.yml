@@ -1,6 +1,7 @@
 services:
   web:
     image: "${STACKSCOPE_IMAGE:-maxzhirnov/stackscope:main}"
+    restart: unless-stopped
     ports:
       - "3000:80"
     environment:
@@ -15,6 +16,7 @@ services:
 
   jobs:
     image: "${STACKSCOPE_IMAGE:-maxzhirnov/stackscope:main}"
+    restart: unless-stopped
     command: ["./bin/jobs"]
     environment:
       RAILS_ENV: production
