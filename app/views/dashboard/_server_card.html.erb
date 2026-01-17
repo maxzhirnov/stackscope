@@ -17,19 +17,27 @@
     <div class="metrics">
       <div>
         <span class="label">CPU</span>
-        <span class="value"><%= latest&.cpu_usage || "—" %></span>
+        <span class="value <%= metric_class(latest&.cpu_usage, 85, 70) %>">
+          <%= metric_value(latest&.cpu_usage, "%") %>
+        </span>
       </div>
       <div>
-        <span class="label">RAM</span>
-        <span class="value"><%= latest&.memory_usage || "—" %></span>
+        <span class="label">RAM (used)</span>
+        <span class="value <%= metric_class(latest&.memory_usage, 85, 70) %>">
+          <%= metric_value(latest&.memory_usage, "%") %>
+        </span>
       </div>
       <div>
-        <span class="label">Disk</span>
-        <span class="value"><%= latest&.disk_usage || "—" %></span>
+        <span class="label">Disk (used)</span>
+        <span class="value <%= metric_class(latest&.disk_usage, 90, 80) %>">
+          <%= metric_value(latest&.disk_usage, "%") %>
+        </span>
       </div>
       <div>
         <span class="label">Load</span>
-        <span class="value"><%= latest&.load_avg || "—" %></span>
+        <span class="value <%= metric_class(latest&.load_avg, 2.0, 1.0) %>">
+          <%= metric_value(latest&.load_avg, "", precision: 2) %>
+        </span>
       </div>
     </div>
     <div class="card-meta">

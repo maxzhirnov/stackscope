@@ -269,6 +269,18 @@ p {
   font-weight: 600;
 }
 
+.metrics .value.metric-ok {
+  color: #1f2a2e;
+}
+
+.metrics .value.metric-warn {
+  color: #c16b12;
+}
+
+.metrics .value.metric-bad {
+  color: #a02424;
+}
+
 .card-meta {
   display: flex;
   justify-content: space-between;
