@@ -5,7 +5,6 @@ import (
 	"errors"
 	"flag"
 	"fmt"
-	"io"
 	"log"
 	"net/http"
 	"os"
@@ -175,27 +174,29 @@ func readCPUSample() (cpuSample, error) {
 }
 
 func readMemoryUsage() (float64, error) {
-	file, err := os.Open("/proc/meminfo")
+	data, err := os.ReadFile("/proc/meminfo")
 	if err != nil {
 		return 0, err
 	}
-	defer file.Close()
 
 	var total, available uint64
-	for {
-		var key string
-		var value uint64
-		_, err := fmt.Fscan(file, &key, &value)
-		if err != nil {
-			if errors.Is(err, io.EOF) {
-				break
-			}
-			return 0, err
+	lines := strings.Split(string(data), "\n")
+	for _, line := range lines {
+		fields := strings.Fields(line)
+		if len(fields) < 2 {
+			continue
 		}
-		if key == "MemTotal:" {
-			total = value
-		} else if key == "MemAvailable:" {
-			available = value
+		switch fields[0] {
+		case "MemTotal:":
+			total, err = strconv.ParseUint(fields[1], 10, 64)
+			if err != nil {
+				return 0, err
+			}
+		case "MemAvailable:":
+			available, err = strconv.ParseUint(fields[1], 10, 64)
+			if err != nil {
+				return 0, err
+			}
 		}
 		if total > 0 && available > 0 {
 			break
