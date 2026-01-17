@@ -6,11 +6,6 @@ if [ -z "${LD_PRELOAD+x}" ]; then
     export LD_PRELOAD
 fi
 
-# If running the rails server then create or migrate existing database
-if [ "${@: -2:1}" == "./bin/rails" ] && [ "${@: -1:1}" == "server" ]; then
-  ./bin/rails db:prepare
-fi
-
 if [ -z "${SECRET_KEY_BASE:-}" ]; then
   SECRET_FILE="/rails/storage/secret_key_base"
   if [ -f "$SECRET_FILE" ]; then
@@ -20,6 +15,16 @@ if [ -z "${SECRET_KEY_BASE:-}" ]; then
     mkdir -p "$(dirname "$SECRET_FILE")"
     echo "$SECRET_KEY_BASE" > "$SECRET_FILE"
   fi
+fi
+
+# If running the rails server then create or migrate existing database
+if [ "${@: -2:1}" == "./bin/rails" ] && [ "${@: -1:1}" == "server" ]; then
+  ./bin/rails db:prepare
+fi
+
+# If running jobs, ensure database is prepared.
+if [ "${@: -1:1}" == "./bin/jobs" ]; then
+  ./bin/rails db:prepare
 fi
 
 exec "${@}"
