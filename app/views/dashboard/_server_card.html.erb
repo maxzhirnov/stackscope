@@ -1,10 +1,10 @@
 <% latest = server.metric_samples.max_by(&:collected_at) %>
 <div id="<%= dom_id(server, :card) %>">
-  <article class="card">
+  <article class="card card--dashboard">
     <div class="card-top">
-      <div>
+      <div class="card-title">
         <h3><%= server.name %></h3>
-        <p class="muted"><%= server.display_host %></p>
+        <p class="muted"><%= server.display_host_no_port %></p>
       </div>
       <div class="status <%= server.status == "online" ? "ok" : "warn" %>">
         <span></span>

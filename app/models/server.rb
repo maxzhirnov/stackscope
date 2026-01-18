@@ -16,6 +16,10 @@ class Server < ApplicationRecord
     port.present? ? "#{host}:#{port}" : host
   end
 
+  def display_host_no_port
+    host.to_s
+  end
+
   def ping_interval
     ping_interval_seconds.presence || 60
   end
