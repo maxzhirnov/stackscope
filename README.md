@@ -128,7 +128,7 @@ Notes:
 - `collected_at` should be RFC3339.
 
 See `agent/README.md` for details and releases:
-`https://github.com/maxzhirnov/stackscope/releases/tag/v0.0.2`.
+`https://github.com/maxzhirnov/stackscope/releases/tag/v0.0.3`.
 
 ## Authentication
 

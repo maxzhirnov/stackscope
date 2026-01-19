@@ -14,20 +14,23 @@ The installer:
 - Downloads the release binary
 - Installs a systemd service with auto-restart
 
+Upgrade:
+- Re-run the installer to download a new version and keep current settings.
+
 ## Manual Install
 
 Download the latest release:
-- https://github.com/maxzhirnov/stackscope/releases/tag/v0.0.2
+- https://github.com/maxzhirnov/stackscope/releases/tag/v0.0.3
 
 Linux amd64:
 ```bash
-curl -L -o stackscope-agent https://github.com/maxzhirnov/stackscope/releases/download/v0.0.2/stackscope-agent-linux-amd64
+curl -L -o stackscope-agent https://github.com/maxzhirnov/stackscope/releases/download/v0.0.3/stackscope-agent-linux-amd64
 chmod +x stackscope-agent
 ```
 
 Linux arm64 (Raspberry Pi 4):
 ```bash
-curl -L -o stackscope-agent https://github.com/maxzhirnov/stackscope/releases/download/v0.0.2/stackscope-agent-linux-arm64
+curl -L -o stackscope-agent https://github.com/maxzhirnov/stackscope/releases/download/v0.0.3/stackscope-agent-linux-arm64
 chmod +x stackscope-agent
 ```
 
