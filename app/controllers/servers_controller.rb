@@ -2,7 +2,7 @@ class ServersController < ApplicationController
   before_action :set_server, only: [:edit, :update, :check_now, :destroy]
 
   def index
-    @servers = Server.order(:name)
+    @servers = Server.order(:position, :name)
   end
 
   def new
@@ -12,7 +12,7 @@ class ServersController < ApplicationController
   def create
     @server = Server.new(server_params)
     if @server.save
-      redirect_to servers_path, notice: "Server added."
+      redirect_to post_create_path, notice: "Server added."
     else
       render :new, status: :unprocessable_entity
     end
@@ -32,6 +32,16 @@ class ServersController < ApplicationController
   def destroy
     @server.destroy
     redirect_to servers_path, notice: "Server deleted."
+  end
+
+  def reorder
+    order = Array(params[:order])
+    ActiveRecord::Base.transaction do
+      order.each_with_index do |id, index|
+        Server.where(id: id).update_all(position: index)
+      end
+    end
+    head :ok
   end
 
   def check_now
@@ -64,7 +74,11 @@ class ServersController < ApplicationController
     @server = Server.find(params[:id])
   end
 
+  def post_create_path
+    params[:return_to] == "dashboard" ? root_path : servers_path
+  end
+
   def server_params
-    params.require(:server).permit(:name, :host, :port, :agent_url, :agent_token, :ping_interval_seconds)
+    params.require(:server).permit(:name, :host, :port, :agent_url, :agent_token, :ping_interval_seconds, :position)
   end
 end

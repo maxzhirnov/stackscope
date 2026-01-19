@@ -47,15 +47,6 @@ After install, set in StackScope:
 - Agent URL: `http://<server-ip>:9100/metrics`
 - Agent token: the token you entered during install (if any)
 
-## Docker Compose (Self-hosted)
-
-The app runs two services:
-- `web` for the UI
-- `jobs` for background checks
-
-Data persistence:
-- SQLite database and uploads are stored in Docker volumes
-
 ## Deploy on Server (Docker)
 
 ```
@@ -82,6 +73,16 @@ docker compose -f docker-compose.yml -f docker-compose.watchtower.yml up -d
 Notes:
 - Only containers with label `com.centurylinklabs.watchtower.enable=true` are updated.
 - Watchtower checks every 15 minutes.
+
+## Shortcuts Monitoring
+
+Shortcuts can be pinged (HTTP 2xx/3xx) automatically.
+
+- Default interval: 60s
+- Per-shortcut toggle + interval in the shortcut form
+- Dashboard controls:
+  - Toggle periodic checks
+  - Run checks now
 
 ## Core Concepts
 

@@ -5,8 +5,15 @@ Rails.application.routes.draw do
   post "timezone" => "timezone#update"
   resources :servers, except: [:show] do
     post :check_now, on: :member
+    post :reorder, on: :collection
   end
-  resources :shortcuts, except: [:show]
+  resources :shortcuts, except: [:show] do
+    post :reorder, on: :collection
+  end
+  post "monitoring/servers/toggle" => "monitoring#toggle_servers", as: :toggle_servers_checks
+  post "monitoring/servers/run" => "monitoring#run_servers", as: :run_servers_checks
+  post "monitoring/shortcuts/toggle" => "monitoring#toggle_shortcuts", as: :toggle_shortcuts_checks
+  post "monitoring/shortcuts/run" => "monitoring#run_shortcuts", as: :run_shortcuts_checks
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.

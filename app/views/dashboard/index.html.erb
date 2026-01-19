@@ -1,51 +1,19 @@
 <div class="page">
-  <header class="hero">
-    <div>
-      <h1>Home servers and VPS in one frame.</h1>
-      <p class="lead">
-        Real-time pings and metrics. Quick jumps to your services, always within reach.
-      </p>
-      <div class="toolbar">
-        <%= link_to "Manage servers", servers_path, class: "button" %>
-        <%= link_to "Manage shortcuts", shortcuts_path, class: "button ghost" %>
-      </div>
-    </div>
-    <div class="hero-panel">
-      <div class="hero-stat">
-        <span class="label">Servers</span>
-        <span class="value"><%= @servers.size %></span>
-      </div>
-      <div class="hero-stat">
-        <span class="label">Shortcuts</span>
-        <span class="value"><%= @shortcuts.size %></span>
-      </div>
-    </div>
+  <header class="hero hero--compact">
   </header>
 
   <section class="section">
     <div class="section-header">
-      <h2>Servers</h2>
-      <p>Nodes and latest metrics at a glance.</p>
-    </div>
-
-    <div class="card-grid">
-      <% if @servers.any? %>
-        <% @servers.each do |server| %>
-          <%= render "dashboard/server_card", server: server %>
-        <% end %>
-      <% else %>
-        <article class="empty-state">
-          <h3>No servers yet</h3>
-          <p>Add your first node to see status and metrics.</p>
-        </article>
-      <% end %>
-    </div>
-  </section>
-
-  <section class="section">
-    <div class="section-header">
       <h2>Shortcuts</h2>
-      <p>Fast access to your services.</p>
+      <div class="section-actions">
+        <%= button_to toggle_shortcuts_checks_path, method: :post, class: "icon-button", title: "Toggle checks" do %>
+          <%= AppSetting.enabled?("shortcuts_checks_enabled", default: true) ? "⏸" : "▶" %>
+        <% end %>
+        <%= button_to run_shortcuts_checks_path, method: :post, class: "icon-button", title: "Run checks now" do %>
+          ↻
+        <% end %>
+        <%= link_to "Manage", shortcuts_path, class: "button ghost" %>
+      </div>
     </div>
 
     <div class="shortcut-grid shortcut-grid--icons">
@@ -55,6 +23,7 @@
           <a class="shortcut" href="<%= shortcut.url %>" target="_blank" rel="noreferrer">
             <span class="icon <%= "has-image" if has_image %>"
                   style="background-color: <%= has_image ? "#ffffff" : shortcut.icon_background_color %>;">
+              <span class="status-dot <%= shortcut.status_class %>"></span>
               <span class="fallback-letter"><%= shortcut.name.to_s[0]&.upcase %></span>
               <% if shortcut.icon_image.attached? %>
                 <%= image_tag shortcut.icon_image, alt: shortcut.name, class: "icon-image" %>
@@ -73,6 +42,46 @@
           <h3>No shortcuts yet</h3>
           <p>Add links to open your favorite services in one tap.</p>
         </article>
+      <% end %>
+      <%= link_to new_shortcut_path(return_to: "dashboard"), class: "shortcut add-card" do %>
+        <span class="icon add-icon">+</span>
+        <div>
+          <h3>Add shortcut</h3>
+        </div>
+      <% end %>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-header">
+      <h2>Servers</h2>
+      <div class="section-actions">
+        <%= button_to toggle_servers_checks_path, method: :post, class: "icon-button", title: "Toggle checks" do %>
+          <%= AppSetting.enabled?("servers_checks_enabled", default: true) ? "⏸" : "▶" %>
+        <% end %>
+        <%= button_to run_servers_checks_path, method: :post, class: "icon-button", title: "Run checks now" do %>
+          ↻
+        <% end %>
+        <%= link_to "Manage", servers_path, class: "button ghost" %>
+      </div>
+    </div>
+
+    <div class="card-grid">
+      <% if @servers.any? %>
+        <% @servers.each do |server| %>
+          <%= render "dashboard/server_card", server: server %>
+        <% end %>
+      <% else %>
+        <article class="empty-state">
+          <h3>No servers yet</h3>
+          <p>Add your first node to see status and metrics.</p>
+        </article>
+      <% end %>
+      <%= link_to new_server_path(return_to: "dashboard"), class: "card add-card add-card--server" do %>
+        <div class="add-card-content">
+          <span class="add-icon">+</span>
+          <span>Add server</span>
+        </div>
       <% end %>
     </div>
   </section>

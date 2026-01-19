@@ -10,10 +10,26 @@
     </div>
   </header>
 
-  <div class="card-grid">
+  <div class="list" data-controller="drag-sort" data-drag-sort-url-value="<%= reorder_servers_path %>">
     <% if @servers.any? %>
       <% @servers.each do |server| %>
-        <%= render "servers/server_card", server: server %>
+        <div class="list-item" data-id="<%= server.id %>" draggable="true" data-action="dragstart->drag-sort#start dragover->drag-sort#over dragend->drag-sort#end">
+          <span class="drag-handle">⋮⋮</span>
+          <div class="list-main">
+            <strong><%= server.name %></strong>
+            <span class="muted"><%= server.display_host %></span>
+          </div>
+          <div class="list-meta">
+            <span class="status <%= server.status == "online" ? "ok" : "warn" %>">
+              <span></span>
+              <%= server.status.presence || "unknown" %>
+              <% if server.ping_latency_ms.present? %>
+                <small><%= server.ping_latency_ms %>ms</small>
+              <% end %>
+            </span>
+            <%= link_to "Edit", edit_server_path(server), class: "button ghost" %>
+          </div>
+        </div>
       <% end %>
     <% else %>
       <article class="empty-state">

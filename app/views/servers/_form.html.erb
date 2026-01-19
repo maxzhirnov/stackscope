@@ -1,4 +1,5 @@
 <%= form_with model: server, class: "form" do |form| %>
+  <%= hidden_field_tag :return_to, params[:return_to] if params[:return_to].present? %>
   <% if server.errors.any? %>
     <div class="form-errors">
       <h3>Check the fields</h3>

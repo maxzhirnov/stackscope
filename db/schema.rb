@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_01_16_154125) do
+ActiveRecord::Schema[8.0].define(version: 2026_01_19_125508) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -46,6 +46,13 @@ ActiveRecord::Schema[8.0].define(version: 2026_01_16_154125) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "app_settings", force: :cascade do |t|
+    t.string "key"
+    t.string "value"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "metric_samples", force: :cascade do |t|
     t.integer "server_id", null: false
     t.decimal "cpu_usage"
@@ -71,6 +78,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_01_16_154125) do
     t.string "agent_token"
     t.integer "ping_interval_seconds", default: 60, null: false
     t.integer "ping_latency_ms"
+    t.integer "position", default: 0, null: false
   end
 
   create_table "shortcuts", force: :cascade do |t|
@@ -82,6 +90,11 @@ ActiveRecord::Schema[8.0].define(version: 2026_01_16_154125) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "icon_url"
+    t.boolean "monitor_enabled", default: true, null: false
+    t.integer "check_interval_seconds", default: 60, null: false
+    t.datetime "last_checked_at"
+    t.string "last_status"
+    t.integer "last_status_code"
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"

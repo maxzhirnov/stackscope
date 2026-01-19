@@ -10,28 +10,28 @@
     </div>
   </header>
 
-  <div class="shortcut-grid">
+  <div class="list" data-controller="drag-sort" data-drag-sort-url-value="<%= reorder_shortcuts_path %>">
     <% if @shortcuts.any? %>
       <% @shortcuts.each do |shortcut| %>
         <% has_image = shortcut.icon_image.attached? || shortcut.icon_url.present? %>
-        <div class="shortcut">
+        <div class="list-item" data-id="<%= shortcut.id %>" draggable="true" data-action="dragstart->drag-sort#start dragover->drag-sort#over dragend->drag-sort#end">
+          <span class="drag-handle">⋮⋮</span>
           <span class="icon <%= "has-image" if has_image %>"
                 style="background-color: <%= has_image ? "#ffffff" : shortcut.icon_background_color %>;">
-            <span class="fallback-letter"><%= shortcut.name.to_s[0]&.upcase %></span>
+            <span class="status-dot <%= shortcut.status_class %>"></span>
             <% if shortcut.icon_image.attached? %>
               <%= image_tag shortcut.icon_image, alt: shortcut.name, class: "icon-image" %>
             <% elsif shortcut.icon_url.present? %>
               <%= image_tag shortcut.icon_url, alt: shortcut.name, class: "icon-image" %>
             <% end %>
           </span>
-          <div class="shortcut-details">
-            <h3><%= shortcut.name %></h3>
-            <p class="muted"><%= shortcut.category %></p>
+          <div class="list-main">
+            <strong><%= shortcut.name %></strong>
             <span class="muted shortcut-url" data-tooltip="<%= shortcut.url %>">
               <span class="shortcut-url-text"><%= shortcut.display_url %></span>
             </span>
           </div>
-          <div class="toolbar">
+          <div class="list-meta">
             <%= link_to "Edit", edit_shortcut_path(shortcut), class: "button ghost" %>
           </div>
         </div>

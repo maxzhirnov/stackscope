@@ -162,14 +162,32 @@ p {
   font-weight: 600;
 }
 
+.hero--compact {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.hero-actions .button {
+  padding: 8px 12px;
+  font-size: 0.85rem;
+}
+
 .section {
-  margin-top: 48px;
+  margin-top: 28px;
 }
 
 .section-header {
   display: flex;
-  flex-direction: column;
-  gap: 8px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
   margin-bottom: 24px;
 }
 
@@ -177,10 +195,38 @@ p {
   color: var(--muted);
 }
 
+.section-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.section-actions .button_to {
+  margin: 0;
+}
+
+.icon-button {
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  border: 1px solid rgba(31, 42, 46, 0.2);
+  background: #fff;
+  color: var(--ink);
+  display: grid;
+  place-items: center;
+  font-weight: 700;
+  cursor: pointer;
+  padding: 0;
+}
+
+.icon-button:hover {
+  border-color: rgba(31, 42, 46, 0.4);
+}
+
 .card-grid {
   display: grid;
   gap: 20px;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  align-items: stretch;
 }
 
 .card {
@@ -192,6 +238,7 @@ p {
   gap: 12px;
   position: relative;
   overflow: hidden;
+  height: 100%;
 }
 
 .card::after {
@@ -338,7 +385,7 @@ p {
 }
 
 .shortcut-grid--icons {
-  grid-template-columns: repeat(5, max-content);
+  grid-template-columns: repeat(5, minmax(120px, 1fr));
   gap: 24px;
   justify-content: start;
 }
@@ -352,8 +399,8 @@ p {
   align-items: center;
   text-align: center;
   gap: 12px;
-  justify-self: center;
-  width: max-content;
+  justify-self: stretch;
+  width: 100%;
 }
 
 @media (max-width: 900px) {
@@ -382,6 +429,60 @@ p {
 .shortcut-grid--icons .shortcut h3 {
   margin: 0;
   font-size: 0.95rem;
+  white-space: normal;
+  text-align: center;
+}
+
+.add-card {
+  border: 1px dashed rgba(31, 42, 46, 0.25);
+  color: var(--muted);
+  text-decoration: none;
+  background: transparent;
+}
+
+.add-card:hover {
+  border-color: rgba(31, 42, 46, 0.45);
+}
+
+.shortcut-grid--icons .add-card {
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.shortcut-grid--icons .add-card .add-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  display: grid;
+  place-items: center;
+  border: 1px dashed rgba(31, 42, 46, 0.35);
+  font-size: 1.6rem;
+  color: var(--muted);
+}
+
+.add-card--server {
+  display: grid;
+  place-items: center;
+  min-height: 100%;
+}
+
+.add-card--server .add-card-content {
+  display: grid;
+  gap: 8px;
+  justify-items: center;
+  color: var(--muted);
+  font-weight: 600;
+}
+
+.add-card--server .add-icon {
+  font-size: 2rem;
+  width: 52px;
+  height: 52px;
+  border-radius: 16px;
+  border: 1px dashed rgba(31, 42, 46, 0.35);
+  display: grid;
+  place-items: center;
 }
 
 .shortcut-grid--icons .shortcut .muted {
@@ -417,6 +518,30 @@ p {
   overflow: hidden;
   position: relative;
   flex: 0 0 auto;
+}
+
+.status-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  position: absolute;
+  right: 6px;
+  bottom: 6px;
+  background: #c2c2c2;
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.9);
+  z-index: 3;
+}
+
+.status-dot.ok {
+  background: #3bbf8f;
+}
+
+.status-dot.bad {
+  background: #e45a4f;
+}
+
+.status-dot.neutral {
+  background: #c2c2c2;
 }
 
 .shortcut .icon .fallback-letter {
@@ -578,6 +703,70 @@ p {
 .shortcut .toolbar {
   margin-left: auto;
   align-self: flex-start;
+}
+
+.list {
+  display: grid;
+  gap: 12px;
+}
+
+.list-item {
+  display: grid;
+  grid-template-columns: auto auto 1fr auto;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 16px;
+  border-radius: 16px;
+  background: var(--card);
+  box-shadow: var(--shadow);
+}
+
+.list-item.is-dragging {
+  opacity: 0.7;
+  transform: scale(0.98);
+}
+
+.drag-handle {
+  cursor: grab;
+  color: var(--muted);
+  font-size: 1rem;
+  user-select: none;
+}
+
+.list-main {
+  display: grid;
+  gap: 6px;
+  min-width: 0;
+}
+
+.list-meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.list-item .icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  font-size: 1rem;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+  position: relative;
+}
+
+.list-item .icon .fallback-letter {
+  display: none;
+}
+
+.list-item .icon .icon-image,
+.list-item .icon img {
+  position: static;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 8px;
 }
 
 .form-errors {

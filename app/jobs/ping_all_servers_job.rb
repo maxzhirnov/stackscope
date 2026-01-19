@@ -4,6 +4,8 @@ class PingAllServersJob < ApplicationJob
   queue_as :default
 
   def perform
+    return unless AppSetting.enabled?("servers_checks_enabled", default: true)
+
     now = Time.current
     Server.find_each do |server|
       next unless due_for_ping?(server, now)

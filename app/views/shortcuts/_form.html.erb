@@ -1,4 +1,5 @@
 <%= form_with model: shortcut, class: "form" do |form| %>
+  <%= hidden_field_tag :return_to, params[:return_to] if params[:return_to].present? %>
   <% if shortcut.errors.any? %>
     <div class="form-errors">
       <h3>Check the fields</h3>
@@ -34,6 +35,14 @@
     <label>
       <span>Order</span>
       <%= form.number_field :position, min: 0 %>
+    </label>
+    <label>
+      <span>Monitoring</span>
+      <%= form.select :monitor_enabled, [["Enabled", true], ["Disabled", false]] %>
+    </label>
+    <label>
+      <span>Check interval (sec)</span>
+      <%= form.number_field :check_interval_seconds, min: 10, max: 3600, placeholder: "60" %>
     </label>
   </div>
 

@@ -26,7 +26,7 @@ Rails.application.configure do
   end
 
   # Change to :null_store to avoid any caching.
-  config.cache_store = :memory_store
+  config.cache_store = :solid_cache_store
 
   # Don't care if the mailer can't send.
   config.action_mailer.raise_delivery_errors = false
@@ -51,6 +51,10 @@ Rails.application.configure do
 
   # Highlight code that enqueued background job in logs.
   config.active_job.verbose_enqueue_logs = true
+
+  # Use Solid Queue in development with dedicated queue database.
+  config.active_job.queue_adapter = :solid_queue
+  config.solid_queue.connects_to = { database: { writing: :queue } }
 
   # Store uploaded files on the local file system.
   config.active_storage.service = :local
