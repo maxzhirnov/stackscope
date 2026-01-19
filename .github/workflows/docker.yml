@@ -53,6 +53,7 @@ jobs:
         run: |
           storage_dir="${{ runner.temp }}/stackscope-storage"
           mkdir -p "$storage_dir"
+          sudo chown -R 1000:1000 "$storage_dir"
           docker run --rm \
             -e RAILS_ENV=production \
             -v "$storage_dir:/rails/storage" \
