@@ -39,6 +39,26 @@ jobs:
             type=sha
             type=raw,value=latest,enable=${{ github.ref == 'refs/heads/main' }}
 
+      - name: Build test image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          load: true
+          platforms: linux/amd64
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          tags: stackscope-ci:latest
+
+      - name: Smoke test migrations
+        run: |
+          storage_dir="${{ runner.temp }}/stackscope-storage"
+          mkdir -p "$storage_dir"
+          docker run --rm \
+            -e RAILS_ENV=production \
+            -v "$storage_dir:/rails/storage" \
+            stackscope-ci:latest \
+            /rails/bin/docker-entrypoint ./bin/rails db:prepare
+
       - name: Build and push
         uses: docker/build-push-action@v6
         with:
