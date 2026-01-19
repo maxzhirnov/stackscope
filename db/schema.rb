@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_01_19_125508) do
+ActiveRecord::Schema[8.0].define(version: 2026_01_19_131852) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -62,6 +62,13 @@ ActiveRecord::Schema[8.0].define(version: 2026_01_19_125508) do
     t.datetime "collected_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "uptime_seconds"
+    t.decimal "swap_usage"
+    t.integer "disk_read_bps"
+    t.integer "disk_write_bps"
+    t.integer "net_rx_bps"
+    t.integer "net_tx_bps"
+    t.text "fs_usage_json"
     t.index ["server_id"], name: "index_metric_samples_on_server_id"
   end
 

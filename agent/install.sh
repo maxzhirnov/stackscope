@@ -73,13 +73,16 @@ token="$(prompt_secret "Agent token" "$DEFAULT_TOKEN")"
 
 binary_url="https://github.com/maxzhirnov/stackscope/releases/download/${version}/stackscope-agent-${arch}"
 binary_path="${install_dir}/stackscope-agent"
+tmp_binary="$(mktemp)"
 
 echo "Downloading ${binary_url}..."
-curl -fsSL -o "$binary_path" "$binary_url"
-chmod +x "$binary_path"
+curl -fsSL -o "$tmp_binary" "$binary_url"
+install -m 0755 "$tmp_binary" "$binary_path"
+rm -f "$tmp_binary"
 
 service_path="/etc/systemd/system/stackscope-agent.service"
-cat >"$service_path" <<EOF
+{
+cat <<EOF
 [Unit]
 Description=StackScope Agent
 After=network.target
@@ -90,14 +93,17 @@ WorkingDirectory=${install_dir}
 ExecStart=${binary_path} -addr ":${port}"
 Restart=always
 RestartSec=3
-
-[Install]
-WantedBy=multi-user.target
 EOF
 
 if [ -n "$token" ]; then
-  printf '\nEnvironment=STACKSCOPE_TOKEN=%s\n' "$token" >>"$service_path"
+  printf 'Environment=STACKSCOPE_TOKEN=%s\n' "$token"
 fi
+
+cat <<EOF
+[Install]
+WantedBy=multi-user.target
+EOF
+} >"$service_path"
 
 systemctl daemon-reload
 systemctl enable --now stackscope-agent

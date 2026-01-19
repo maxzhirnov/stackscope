@@ -3,7 +3,7 @@
   <article class="card card--dashboard">
     <div class="card-top">
       <div class="card-title">
-        <h3><%= server.name %></h3>
+        <h3><%= link_to server.name, server_path(server), class: "card-link" %></h3>
         <p class="muted"><%= server.display_host_no_port %></p>
       </div>
       <div class="status <%= server.status == "online" ? "ok" : "warn" %>">

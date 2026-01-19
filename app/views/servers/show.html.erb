@@ -1,0 +1,101 @@
+<div class="page">
+  <header class="section-header">
+    <div>
+      <h1><%= @server.name %></h1>
+      <p class="muted"><%= @server.display_host %></p>
+    </div>
+    <div class="toolbar">
+      <%= link_to "Back", root_path, class: "button ghost" %>
+      <%= link_to "Edit", edit_server_path(@server), class: "button" %>
+    </div>
+  </header>
+
+  <div class="detail-grid">
+    <div class="detail-card">
+      <h3>Overview</h3>
+      <div class="detail-stats">
+        <div>
+          <span class="label">Status</span>
+          <span class="value"><%= @server.status.presence || "unknown" %></span>
+        </div>
+        <div>
+          <span class="label">Latency</span>
+          <span class="value"><%= @server.ping_latency_ms ? "#{@server.ping_latency_ms}ms" : "—" %></span>
+        </div>
+        <div>
+          <span class="label">Uptime</span>
+          <span class="value"><%= human_seconds(@latest&.uptime_seconds) %></span>
+        </div>
+        <div>
+          <span class="label">Swap used</span>
+          <span class="value"><%= metric_value(@latest&.swap_usage, "%") %></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="detail-card">
+      <h3>Throughput</h3>
+      <div class="detail-stats">
+        <div>
+          <span class="label">Disk read</span>
+          <span class="value"><%= human_bytes_per_sec(@latest&.disk_read_bps) %></span>
+        </div>
+        <div>
+          <span class="label">Disk write</span>
+          <span class="value"><%= human_bytes_per_sec(@latest&.disk_write_bps) %></span>
+        </div>
+        <div>
+          <span class="label">Net RX</span>
+          <span class="value"><%= human_bytes_per_sec(@latest&.net_rx_bps) %></span>
+        </div>
+        <div>
+          <span class="label">Net TX</span>
+          <span class="value"><%= human_bytes_per_sec(@latest&.net_tx_bps) %></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="detail-grid">
+    <div class="detail-card">
+      <h3>CPU</h3>
+      <div class="sparkline-wrap">
+        <%= sparkline(@samples.map(&:cpu_usage), stroke: "#1c7c73") %>
+      </div>
+    </div>
+    <div class="detail-card">
+      <h3>RAM (used)</h3>
+      <div class="sparkline-wrap">
+        <%= sparkline(@samples.map(&:memory_usage), stroke: "#b1454a") %>
+      </div>
+    </div>
+    <div class="detail-card">
+      <h3>Disk (used)</h3>
+      <div class="sparkline-wrap">
+        <%= sparkline(@samples.map(&:disk_usage), stroke: "#e08a2e") %>
+      </div>
+    </div>
+    <div class="detail-card">
+      <h3>Load</h3>
+      <div class="sparkline-wrap">
+        <%= sparkline(@samples.map(&:load_avg), stroke: "#205072") %>
+      </div>
+    </div>
+  </div>
+
+  <div class="detail-card">
+    <h3>Filesystems</h3>
+    <% if @latest&.fs_usage&.any? %>
+      <div class="fs-list">
+        <% @latest.fs_usage.each do |fs| %>
+          <div class="fs-row">
+            <span><%= fs["mount"] %></span>
+            <span><%= metric_value(fs["used_percent"], "%") %></span>
+          </div>
+        <% end %>
+      </div>
+    <% else %>
+      <p class="muted">No filesystem data yet.</p>
+    <% end %>
+  </div>
+</div>

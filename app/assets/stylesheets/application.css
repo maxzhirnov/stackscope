@@ -277,6 +277,15 @@ p {
   text-overflow: ellipsis;
 }
 
+.card-link {
+  text-decoration: none;
+  color: inherit;
+}
+
+.card-link:hover {
+  text-decoration: underline;
+}
+
 .card--dashboard .card-title .muted {
   max-width: 180px;
 }
@@ -542,6 +551,63 @@ p {
 
 .status-dot.neutral {
   background: #c2c2c2;
+}
+
+.detail-grid {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  margin-bottom: 16px;
+}
+
+.detail-card {
+  background: var(--card);
+  border-radius: var(--radius);
+  padding: 16px;
+  box-shadow: var(--shadow);
+}
+
+.detail-card h3 {
+  margin-bottom: 12px;
+}
+
+.detail-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 12px;
+}
+
+.detail-stats .label {
+  display: block;
+  font-size: 0.7rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 4px;
+}
+
+.detail-stats .value {
+  font-weight: 600;
+}
+
+.sparkline-wrap {
+  height: 48px;
+}
+
+.sparkline {
+  width: 100%;
+  height: 48px;
+}
+
+.fs-list {
+  display: grid;
+  gap: 8px;
+}
+
+.fs-row {
+  display: flex;
+  justify-content: space-between;
+  font-weight: 600;
 }
 
 .shortcut .icon .fallback-letter {

@@ -1,5 +1,5 @@
 class ServersController < ApplicationController
-  before_action :set_server, only: [:edit, :update, :check_now, :destroy]
+  before_action :set_server, only: [:show, :edit, :update, :check_now, :destroy]
 
   def index
     @servers = Server.order(:position, :name)
@@ -16,6 +16,11 @@ class ServersController < ApplicationController
     else
       render :new, status: :unprocessable_entity
     end
+  end
+
+  def show
+    @latest = @server.metric_samples.order(collected_at: :desc).first
+    @samples = @server.metric_samples.order(collected_at: :desc).limit(120).reverse
   end
 
   def edit

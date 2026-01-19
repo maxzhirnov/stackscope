@@ -3,7 +3,7 @@ Rails.application.routes.draw do
   resource :session, only: [:new, :create, :destroy]
   resource :setup, only: [:new, :create], controller: "setup"
   post "timezone" => "timezone#update"
-  resources :servers, except: [:show] do
+  resources :servers do
     post :check_now, on: :member
     post :reorder, on: :collection
   end

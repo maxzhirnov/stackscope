@@ -20,6 +20,13 @@ class FetchMetricsJob < ApplicationJob
       memory_usage: payload[:memory_usage],
       disk_usage: payload[:disk_usage],
       load_avg: payload[:load_avg],
+      uptime_seconds: payload[:uptime_seconds],
+      swap_usage: payload[:swap_usage],
+      disk_read_bps: payload[:disk_read_bps],
+      disk_write_bps: payload[:disk_write_bps],
+      net_rx_bps: payload[:net_rx_bps],
+      net_tx_bps: payload[:net_tx_bps],
+      fs_usage_json: payload[:fs_usage_json],
       collected_at: payload[:collected_at] || Time.current
     )
     server.update(last_metrics_at: payload[:collected_at] || Time.current)
@@ -52,6 +59,13 @@ class FetchMetricsJob < ApplicationJob
       memory_usage: parsed["memory_usage"],
       disk_usage: parsed["disk_usage"],
       load_avg: parsed["load_avg"],
+      uptime_seconds: parsed["uptime_seconds"],
+      swap_usage: parsed["swap_usage"],
+      disk_read_bps: parsed["disk_read_bps"],
+      disk_write_bps: parsed["disk_write_bps"],
+      net_rx_bps: parsed["net_rx_bps"],
+      net_tx_bps: parsed["net_tx_bps"],
+      fs_usage_json: parsed["fs_usage"] ? JSON.dump(parsed["fs_usage"]) : nil,
       collected_at: parse_time(parsed["collected_at"])
     }
   rescue StandardError => e
