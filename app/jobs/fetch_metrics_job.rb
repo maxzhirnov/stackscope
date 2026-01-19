@@ -20,6 +20,7 @@ class FetchMetricsJob < ApplicationJob
       memory_usage: payload[:memory_usage],
       disk_usage: payload[:disk_usage],
       load_avg: payload[:load_avg],
+      agent_version: payload[:agent_version],
       uptime_seconds: payload[:uptime_seconds],
       swap_usage: payload[:swap_usage],
       disk_read_bps: payload[:disk_read_bps],
@@ -66,6 +67,7 @@ class FetchMetricsJob < ApplicationJob
       net_rx_bps: parsed["net_rx_bps"],
       net_tx_bps: parsed["net_tx_bps"],
       fs_usage_json: parsed["fs_usage"] ? JSON.dump(parsed["fs_usage"]) : nil,
+      agent_version: parsed["agent_version"],
       collected_at: parse_time(parsed["collected_at"])
     }
   rescue StandardError => e

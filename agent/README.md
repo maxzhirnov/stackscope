@@ -20,17 +20,17 @@ Upgrade:
 ## Manual Install
 
 Download the latest release:
-- https://github.com/maxzhirnov/stackscope/releases/tag/v0.0.3
+- https://github.com/maxzhirnov/stackscope/releases/tag/v0.0.4
 
 Linux amd64:
 ```bash
-curl -L -o stackscope-agent https://github.com/maxzhirnov/stackscope/releases/download/v0.0.3/stackscope-agent-linux-amd64
+curl -L -o stackscope-agent https://github.com/maxzhirnov/stackscope/releases/download/v0.0.4/stackscope-agent-linux-amd64
 chmod +x stackscope-agent
 ```
 
 Linux arm64 (Raspberry Pi 4):
 ```bash
-curl -L -o stackscope-agent https://github.com/maxzhirnov/stackscope/releases/download/v0.0.3/stackscope-agent-linux-arm64
+curl -L -o stackscope-agent https://github.com/maxzhirnov/stackscope/releases/download/v0.0.4/stackscope-agent-linux-arm64
 chmod +x stackscope-agent
 ```
 
@@ -87,6 +87,19 @@ curl -H "X-Stackscope-Token: secret" http://localhost:9100/metrics
   "memory_usage": 41.2,
   "disk_usage": 73.8,
   "load_avg": 0.42,
+  "uptime_seconds": 3600,
+  "swap_usage": 2.1,
+  "disk_read_bps": 12000,
+  "disk_write_bps": 9000,
+  "net_rx_bps": 18000,
+  "net_tx_bps": 14000,
+  "fs_usage": [
+    {
+      "mount": "/",
+      "used_percent": 73.8
+    }
+  ],
+  "agent_version": "v0.0.4",
   "collected_at": "2026-01-16T13:57:00Z"
 }
 ```

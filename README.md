@@ -119,6 +119,19 @@ Response:
   "memory_usage": 41.2,
   "disk_usage": 73.8,
   "load_avg": 0.42,
+  "uptime_seconds": 3600,
+  "swap_usage": 2.1,
+  "disk_read_bps": 12000,
+  "disk_write_bps": 9000,
+  "net_rx_bps": 18000,
+  "net_tx_bps": 14000,
+  "fs_usage": [
+    {
+      "mount": "/",
+      "used_percent": 73.8
+    }
+  ],
+  "agent_version": "v0.0.4",
   "collected_at": "2026-01-16T13:57:00Z"
 }
 ```
@@ -128,7 +141,7 @@ Notes:
 - `collected_at` should be RFC3339.
 
 See `agent/README.md` for details and releases:
-`https://github.com/maxzhirnov/stackscope/releases/tag/v0.0.3`.
+`https://github.com/maxzhirnov/stackscope/releases/tag/v0.0.4`.
 
 ## Authentication
 

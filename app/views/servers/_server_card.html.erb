@@ -1,3 +1,4 @@
+<% latest = server.metric_samples.max_by(&:collected_at) %>
 <div id="<%= dom_id(server, :card) %>">
   <article class="card">
     <div class="card-top">
@@ -17,6 +18,7 @@
     <div class="card-meta">
       <span>Ping: <%= server.last_ping_at ? l(server.last_ping_at, format: :short) : "—" %></span>
       <span>Metrics: <%= server.last_metrics_at ? l(server.last_metrics_at, format: :short) : "—" %></span>
+      <span>Agent: <%= latest&.agent_version.presence || "—" %></span>
     </div>
     <div class="toolbar">
       <%= button_to "Check now",

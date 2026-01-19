@@ -16,19 +16,22 @@ import (
 )
 
 type metricsPayload struct {
-	CPUUsage    float64 `json:"cpu_usage"`
-	MemoryUsage float64 `json:"memory_usage"`
-	DiskUsage   float64 `json:"disk_usage"`
-	LoadAvg     float64 `json:"load_avg"`
-	UptimeSec   int64   `json:"uptime_seconds"`
-	SwapUsage   float64 `json:"swap_usage"`
-	DiskReadBps int64   `json:"disk_read_bps"`
-	DiskWriteBps int64  `json:"disk_write_bps"`
-	NetRxBps    int64   `json:"net_rx_bps"`
-	NetTxBps    int64   `json:"net_tx_bps"`
-	FSUsage     []fsUsage `json:"fs_usage"`
-	CollectedAt string  `json:"collected_at"`
+	CPUUsage     float64   `json:"cpu_usage"`
+	MemoryUsage  float64   `json:"memory_usage"`
+	DiskUsage    float64   `json:"disk_usage"`
+	LoadAvg      float64   `json:"load_avg"`
+	AgentVersion string    `json:"agent_version"`
+	UptimeSec    int64     `json:"uptime_seconds"`
+	SwapUsage    float64   `json:"swap_usage"`
+	DiskReadBps  int64     `json:"disk_read_bps"`
+	DiskWriteBps int64     `json:"disk_write_bps"`
+	NetRxBps     int64     `json:"net_rx_bps"`
+	NetTxBps     int64     `json:"net_tx_bps"`
+	FSUsage      []fsUsage `json:"fs_usage"`
+	CollectedAt  string    `json:"collected_at"`
 }
+
+var version = "dev"
 
 type fsUsage struct {
 	Mount       string  `json:"mount"`
@@ -143,18 +146,19 @@ func collectMetrics() (metricsPayload, error) {
 	}
 
 	return metricsPayload{
-		CPUUsage:    cpuUsage,
-		MemoryUsage: memUsage,
-		DiskUsage:   diskUsage,
-		LoadAvg:     loadAvg,
-		UptimeSec:   uptimeSec,
-		SwapUsage:   swapUsage,
-		DiskReadBps: diskReadBps,
+		CPUUsage:     cpuUsage,
+		MemoryUsage:  memUsage,
+		DiskUsage:    diskUsage,
+		LoadAvg:      loadAvg,
+		AgentVersion: version,
+		UptimeSec:    uptimeSec,
+		SwapUsage:    swapUsage,
+		DiskReadBps:  diskReadBps,
 		DiskWriteBps: diskWriteBps,
-		NetRxBps:    netRxBps,
-		NetTxBps:    netTxBps,
-		FSUsage:     fsUsage,
-		CollectedAt: time.Now().UTC().Format(time.RFC3339),
+		NetRxBps:     netRxBps,
+		NetTxBps:     netTxBps,
+		FSUsage:      fsUsage,
+		CollectedAt:  time.Now().UTC().Format(time.RFC3339),
 	}, nil
 }
 

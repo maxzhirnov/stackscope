@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_01_19_131852) do
+ActiveRecord::Schema[8.0].define(version: 2026_01_19_160000) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -69,6 +69,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_01_19_131852) do
     t.integer "net_rx_bps"
     t.integer "net_tx_bps"
     t.text "fs_usage_json"
+    t.string "agent_version"
     t.index ["server_id"], name: "index_metric_samples_on_server_id"
   end
 
