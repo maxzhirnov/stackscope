@@ -74,9 +74,14 @@ token="$(prompt_secret "Agent token" "$DEFAULT_TOKEN")"
 binary_url="https://github.com/maxzhirnov/stackscope/releases/download/${version}/stackscope-agent-${arch}"
 binary_path="${install_dir}/stackscope-agent"
 tmp_binary="$(mktemp)"
+cache_bust="$(date +%s)"
+
+if systemctl is-active --quiet stackscope-agent; then
+  systemctl stop stackscope-agent
+fi
 
 echo "Downloading ${binary_url}..."
-curl -fsSL -o "$tmp_binary" "$binary_url"
+curl -fsSL -o "$tmp_binary" "${binary_url}?ts=${cache_bust}"
 install -m 0755 "$tmp_binary" "$binary_path"
 rm -f "$tmp_binary"
 
@@ -106,7 +111,8 @@ EOF
 } >"$service_path"
 
 systemctl daemon-reload
-systemctl enable --now stackscope-agent
+systemctl enable stackscope-agent
+systemctl restart stackscope-agent
 
 echo "StackScope Agent installed."
 echo "Check status: systemctl status stackscope-agent"
