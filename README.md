@@ -143,3 +143,9 @@ bundle install
 bin/rails db:create db:migrate
 bin/rails s
 ```
+
+## Production Notes
+
+Production uses SQLite stored in `storage/production.sqlite3` (mounted via the
+`stackscope_storage` volume). The `/rails/db` volume is not used by the
+production database configuration.

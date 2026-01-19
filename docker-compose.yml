@@ -14,7 +14,6 @@ services:
       STACKSCOPE_ADMIN_USER: "${STACKSCOPE_ADMIN_USER}"
       STACKSCOPE_ADMIN_PASSWORD: "${STACKSCOPE_ADMIN_PASSWORD}"
     volumes:
-      - stackscope_db:/rails/db
       - stackscope_storage:/rails/storage
 
   jobs:
@@ -30,9 +29,7 @@ services:
       STACKSCOPE_ADMIN_USER: "${STACKSCOPE_ADMIN_USER}"
       STACKSCOPE_ADMIN_PASSWORD: "${STACKSCOPE_ADMIN_PASSWORD}"
     volumes:
-      - stackscope_db:/rails/db
       - stackscope_storage:/rails/storage
 
 volumes:
-  stackscope_db:
   stackscope_storage:
