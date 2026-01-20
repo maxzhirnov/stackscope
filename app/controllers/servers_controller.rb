@@ -1,5 +1,9 @@
+require "json"
+require "net/http"
+require "uri"
+
 class ServersController < ApplicationController
-  before_action :set_server, only: [:show, :edit, :update, :check_now, :destroy]
+  before_action :set_server, only: [:show, :edit, :update, :check_now, :destroy, :extended_metrics]
 
   def index
     @servers = Server.order(:position, :name)
@@ -21,7 +25,7 @@ class ServersController < ApplicationController
   def show
     @latest = @server.metric_samples.order(collected_at: :desc).first
     @samples = @server.metric_samples.order(collected_at: :desc).limit(120).reverse
-    @extended = fetch_extended_metrics(@server)
+    @extended = @server.extended_metrics_payload
   end
 
   def edit
@@ -74,6 +78,18 @@ class ServersController < ApplicationController
     end
   end
 
+  def extended_metrics
+    @extended = fetch_extended_metrics(@server)
+    if @extended.present?
+      @server.update(
+        extended_metrics_json: JSON.dump(@extended),
+        extended_metrics_fetched_at: Time.current
+      )
+    end
+    @extended = @server.extended_metrics_payload
+    render partial: "servers/extended_metrics_frame", locals: { extended: @extended, server: @server }
+  end
+
   private
 
   def set_server
@@ -106,8 +122,8 @@ class ServersController < ApplicationController
       uri.host,
       uri.port,
       use_ssl: uri.scheme == "https",
-      open_timeout: 3,
-      read_timeout: 3
+      open_timeout: 4,
+      read_timeout: 4
     ) do |http|
       http.request(request)
     end

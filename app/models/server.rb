@@ -1,3 +1,4 @@
+require "json"
 require "uri"
 
 class Server < ApplicationRecord
@@ -22,5 +23,13 @@ class Server < ApplicationRecord
 
   def ping_interval
     ping_interval_seconds.presence || 60
+  end
+
+  def extended_metrics_payload
+    return nil if extended_metrics_json.blank?
+
+    JSON.parse(extended_metrics_json)
+  rescue JSON::ParserError
+    nil
   end
 end

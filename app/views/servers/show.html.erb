@@ -99,185 +99,36 @@
     <% end %>
   </div>
 
-  <div class="detail-card">
-    <h3>Extended metrics</h3>
-    <% if @extended.present? %>
-      <% meta = @extended["meta"] || {} %>
-      <% system = @extended["system"] || {} %>
-      <% cpu = @extended["cpu"] || {} %>
-      <% memory = @extended["memory"] || {} %>
-      <% disk = @extended["disk"] || {} %>
-      <% network = @extended["network"] || {} %>
-      <% processes = @extended["processes"] || {} %>
-      <% health = @extended["health"] || {} %>
-
-      <div class="detail-grid">
-        <div class="detail-card">
-          <h3>Agent</h3>
-          <div class="detail-stats">
-            <div>
-              <span class="label">Version</span>
-              <span class="value"><%= @extended["agent_version"] || "—" %></span>
-            </div>
-            <div>
-              <span class="label">Schema</span>
-              <span class="value"><%= meta["schema_version"] || "—" %></span>
-            </div>
-            <div>
-              <span class="label">Build</span>
-              <span class="value"><%= meta.dig("agent_build", "build_time") || "—" %></span>
-            </div>
-            <div>
-              <span class="label">Git</span>
-              <span class="value"><%= meta.dig("agent_build", "git_sha") || "—" %></span>
-            </div>
-          </div>
-        </div>
-
-        <div class="detail-card">
-          <h3>System</h3>
-          <div class="detail-stats">
-            <div>
-              <span class="label">Host</span>
-              <span class="value"><%= system["hostname"] || "—" %></span>
-            </div>
-            <div>
-              <span class="label">OS</span>
-              <span class="value"><%= system.dig("os", "pretty_name") || system.dig("os", "name") || "—" %></span>
-            </div>
-            <div>
-              <span class="label">Kernel</span>
-              <span class="value"><%= system["kernel"] || "—" %></span>
-            </div>
-            <div>
-              <span class="label">Arch</span>
-              <span class="value"><%= system["arch"] || "—" %></span>
-            </div>
-          </div>
-        </div>
+  <div class="detail-card extended-metrics">
+    <div class="detail-header">
+      <div>
+        <h3>Extended metrics</h3>
+        <p class="muted">
+          Last updated:
+          <%= @server.extended_metrics_fetched_at ? l(@server.extended_metrics_fetched_at, format: :short) : "never" %>
+        </p>
       </div>
-
-      <div class="detail-grid">
-        <div class="detail-card">
-          <h3>CPU</h3>
-          <div class="detail-stats">
-            <div>
-              <span class="label">Usage</span>
-              <span class="value"><%= metric_value(cpu["usage_total_percent"], "%") %></span>
-            </div>
-            <div>
-              <span class="label">Cores</span>
-              <span class="value"><%= cpu["cores_logical"] || "—" %></span>
-            </div>
-            <div>
-              <span class="label">IO wait</span>
-              <span class="value"><%= metric_value(cpu["iowait_percent"], "%") %></span>
-            </div>
-            <div>
-              <span class="label">Steal</span>
-              <span class="value"><%= metric_value(cpu["steal_percent"], "%") %></span>
-            </div>
-          </div>
-        </div>
-
-        <div class="detail-card">
-          <h3>Memory</h3>
-          <div class="detail-stats">
-            <div>
-              <span class="label">Total</span>
-              <span class="value"><%= memory["total_mb"] ? "#{memory["total_mb"].round} MB" : "—" %></span>
-            </div>
-            <div>
-              <span class="label">Used</span>
-              <span class="value"><%= memory["used_mb"] ? "#{memory["used_mb"].round} MB" : "—" %></span>
-            </div>
-            <div>
-              <span class="label">Available</span>
-              <span class="value"><%= memory["available_mb"] ? "#{memory["available_mb"].round} MB" : "—" %></span>
-            </div>
-            <div>
-              <span class="label">Cached</span>
-              <span class="value"><%= memory["cached_mb"] ? "#{memory["cached_mb"].round} MB" : "—" %></span>
-            </div>
-            <div>
-              <span class="label">Swap used</span>
-              <span class="value"><%= metric_value(memory.dig("swap", "used_percent"), "%") %></span>
-            </div>
-            <div>
-              <span class="label">OOM kills</span>
-              <span class="value"><%= memory["oom_kills_total"] || 0 %></span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="detail-grid">
-        <div class="detail-card">
-          <h3>Disk</h3>
-          <% fs_list = disk["fs"] || [] %>
-          <% if fs_list.any? %>
-            <div class="detail-list">
-              <% fs_list.each do |fs| %>
-                <div class="detail-row">
-                  <span><%= fs["mount"] %> (<%= fs["fstype"] %>)</span>
-                  <span><%= metric_value(fs["used_percent"], "%") %> used</span>
-                </div>
-              <% end %>
-            </div>
-          <% else %>
-            <p class="muted">No filesystem details yet.</p>
-          <% end %>
-        </div>
-
-        <div class="detail-card">
-          <h3>Network</h3>
-          <% interfaces = network["interfaces"] || [] %>
-          <% if interfaces.any? %>
-            <div class="detail-list">
-              <% interfaces.each do |iface| %>
-                <div class="detail-row">
-                  <span><%= iface["name"] %></span>
-                  <span><%= human_bytes_per_sec(iface["rx_bps"]) %> / <%= human_bytes_per_sec(iface["tx_bps"]) %></span>
-                </div>
-              <% end %>
-            </div>
-          <% else %>
-            <p class="muted">No network details yet.</p>
-          <% end %>
-        </div>
-      </div>
-
-      <div class="detail-grid">
-        <div class="detail-card">
-          <h3>Processes</h3>
-          <div class="detail-stats">
-            <div>
-              <span class="label">Total</span>
-              <span class="value"><%= processes["total"] || "—" %></span>
-            </div>
-            <div>
-              <span class="label">Zombies</span>
-              <span class="value"><%= processes["zombies"] || 0 %></span>
-            </div>
-          </div>
-        </div>
-
-        <div class="detail-card">
-          <h3>Health</h3>
-          <div class="detail-stats">
-            <div>
-              <span class="label">Status</span>
-              <span class="value"><%= health["status"] || "—" %></span>
-            </div>
-            <div>
-              <span class="label">Reasons</span>
-              <span class="value"><%= Array(health["reasons"]).join(", ").presence || "—" %></span>
-            </div>
-          </div>
-        </div>
-      </div>
-    <% else %>
-      <p class="muted">Extended metrics are unavailable. Install agent v0.0.5+ to enable this view.</p>
+      <%= button_to extended_metrics_server_path(@server),
+                    method: :get,
+                    class: "button ghost",
+                    data: { loading_button_target: "button" },
+                    form: {
+                      data: {
+                        controller: "loading-button",
+                        action: "turbo:submit-start->loading-button#start turbo:submit-end->loading-button#stop",
+                        turbo_frame: dom_id(@server, :extended_metrics)
+                      }
+                    } do %>
+        <span class="button-label">Refresh</span>
+        <span class="spinner" aria-hidden="true"></span>
+      <% end %>
+    </div>
+    <%= turbo_frame_tag dom_id(@server, :extended_metrics) do %>
+      <% if @extended.present? %>
+        <%= render "servers/extended_metrics", extended: @extended, server: @server %>
+      <% else %>
+        <p class="muted">Load extended metrics to view system details.</p>
+      <% end %>
     <% end %>
   </div>
 </div>
