@@ -59,9 +59,6 @@
         <%= button_to toggle_servers_checks_path, method: :post, class: "icon-button", title: "Toggle checks" do %>
           <%= AppSetting.enabled?("servers_checks_enabled", default: true) ? "⏸" : "▶" %>
         <% end %>
-        <%= button_to run_servers_checks_path, method: :post, class: "icon-button", title: "Run checks now" do %>
-          ↻
-        <% end %>
         <%= link_to "Manage", servers_path, class: "button ghost" %>
       </div>
     </div>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_01_19_160000) do
+ActiveRecord::Schema[8.0].define(version: 2026_01_20_103000) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -87,6 +87,8 @@ ActiveRecord::Schema[8.0].define(version: 2026_01_19_160000) do
     t.integer "ping_interval_seconds", default: 60, null: false
     t.integer "ping_latency_ms"
     t.integer "position", default: 0, null: false
+    t.text "extended_metrics_json"
+    t.datetime "extended_metrics_fetched_at"
   end
 
   create_table "shortcuts", force: :cascade do |t|

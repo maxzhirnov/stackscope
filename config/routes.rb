@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   post "timezone" => "timezone#update"
   resources :servers do
     post :check_now, on: :member
+    get :extended_metrics, on: :member
     post :reorder, on: :collection
   end
   resources :shortcuts, except: [:show] do

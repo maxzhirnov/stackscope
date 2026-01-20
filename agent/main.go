@@ -348,10 +348,10 @@ func collectExtendedMetrics() (extendedPayload, error) {
 
 	system := readSystemInfo()
 
-	cpuDetails, _ := readCPUExtended(150 * time.Millisecond)
+	cpuDetails, _ := readCPUExtended(100 * time.Millisecond)
 	memDetails, _ := readMemoryInfo()
 	diskDetails, _ := readDiskInfo()
-	networkDetails, _ := readNetworkInfo(1 * time.Second)
+	networkDetails, _ := readNetworkInfo(200 * time.Millisecond)
 	processDetails, _ := readProcessInfo()
 	healthDetails := evaluateHealth(base, memDetails)
 
