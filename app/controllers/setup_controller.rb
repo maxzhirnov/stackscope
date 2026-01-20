@@ -8,9 +8,9 @@ class SetupController < ApplicationController
 
   def create
     credential = AdminCredential.new(
-      username: params[:username],
-      password: params[:password],
-      password_confirmation: params[:password_confirmation]
+      username: params[:username].to_s.strip,
+      password: params[:password].to_s,
+      password_confirmation: params[:password_confirmation].to_s
     )
 
     if credential.save

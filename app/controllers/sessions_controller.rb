@@ -7,8 +7,10 @@ class SessionsController < ApplicationController
   end
 
   def create
-    credential = AdminCredential.find_by(username: params[:username])
-    if credential&.authenticate(params[:password])
+    username = params[:username].to_s.strip
+    password = params[:password].to_s.strip
+    credential = AdminCredential.where("lower(username) = ?", username.downcase).first
+    if credential&.authenticate(password)
       session[:admin_id] = credential.id
       redirect_to root_path, notice: "Signed in."
     else
