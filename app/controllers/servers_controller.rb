@@ -21,6 +21,7 @@ class ServersController < ApplicationController
   def show
     @latest = @server.metric_samples.order(collected_at: :desc).first
     @samples = @server.metric_samples.order(collected_at: :desc).limit(120).reverse
+    @extended = fetch_extended_metrics(@server)
   end
 
   def edit
@@ -85,5 +86,37 @@ class ServersController < ApplicationController
 
   def server_params
     params.require(:server).permit(:name, :host, :port, :agent_url, :agent_token, :ping_interval_seconds, :position)
+  end
+
+  def fetch_extended_metrics(server)
+    return nil if server.agent_url.blank?
+
+    uri = URI.parse(server.agent_url)
+    if uri.path.to_s.end_with?("/metrics")
+      uri.path = uri.path.sub(%r{/metrics\z}, "/metrics/extended")
+    else
+      uri.path = uri.path.to_s.sub(/\/$/, "")
+      uri.path = "#{uri.path}/metrics/extended"
+    end
+
+    request = Net::HTTP::Get.new(uri)
+    request["X-Stackscope-Token"] = server.agent_token if server.agent_token.present?
+
+    response = Net::HTTP.start(
+      uri.host,
+      uri.port,
+      use_ssl: uri.scheme == "https",
+      open_timeout: 3,
+      read_timeout: 3
+    ) do |http|
+      http.request(request)
+    end
+
+    return nil unless response.is_a?(Net::HTTPSuccess)
+
+    JSON.parse(response.body)
+  rescue StandardError => e
+    Rails.logger.info("Extended metrics unavailable for server #{server.id}: #{e.class} #{e.message}")
+    nil
   end
 end

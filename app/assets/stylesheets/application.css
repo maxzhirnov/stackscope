@@ -610,6 +610,18 @@ p {
   font-weight: 600;
 }
 
+.detail-list {
+  display: grid;
+  gap: 8px;
+}
+
+.detail-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  font-weight: 600;
+}
+
 .shortcut .icon .fallback-letter {
   font-weight: 700;
   z-index: 1;

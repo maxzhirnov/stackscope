@@ -20,17 +20,17 @@ Upgrade:
 ## Manual Install
 
 Download the latest release:
-- https://github.com/maxzhirnov/stackscope/releases/tag/v0.0.4
+- https://github.com/maxzhirnov/stackscope/releases/tag/v0.0.5
 
 Linux amd64:
 ```bash
-curl -L -o stackscope-agent https://github.com/maxzhirnov/stackscope/releases/download/v0.0.4/stackscope-agent-linux-amd64
+curl -L -o stackscope-agent https://github.com/maxzhirnov/stackscope/releases/download/v0.0.5/stackscope-agent-linux-amd64
 chmod +x stackscope-agent
 ```
 
 Linux arm64 (Raspberry Pi 4):
 ```bash
-curl -L -o stackscope-agent https://github.com/maxzhirnov/stackscope/releases/download/v0.0.4/stackscope-agent-linux-arm64
+curl -L -o stackscope-agent https://github.com/maxzhirnov/stackscope/releases/download/v0.0.5/stackscope-agent-linux-arm64
 chmod +x stackscope-agent
 ```
 
@@ -79,7 +79,7 @@ Test:
 curl -H "X-Stackscope-Token: secret" http://localhost:9100/metrics
 ```
 
-## Response Example
+## Response Example (basic)
 
 ```json
 {
@@ -101,6 +101,19 @@ curl -H "X-Stackscope-Token: secret" http://localhost:9100/metrics
   ],
   "agent_version": "v0.0.4",
   "collected_at": "2026-01-16T13:57:00Z"
+}
+```
+
+## Response Example (extended)
+
+```json
+{
+  "meta": { "schema_version": 2 },
+  "system": { "hostname": "api-prod-03" },
+  "cpu": { "usage_total_percent": 12.4 },
+  "memory": { "total_mb": 16384 },
+  "disk": { "fs": [{ "mount": "/" }] },
+  "network": { "interfaces": [{ "name": "eth0" }] }
 }
 ```
 

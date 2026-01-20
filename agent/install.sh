@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-DEFAULT_VERSION="v0.0.4"
+DEFAULT_VERSION="v0.0.5"
 DEFAULT_PORT="9100"
 DEFAULT_DIR="/opt/stackscope-agent"
 

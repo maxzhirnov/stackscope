@@ -109,10 +109,11 @@ Bookmarks to frequently used services.
 
 ## Metrics API Contract
 
-Endpoint:
-- `GET /metrics`
+Endpoints:
+- `GET /metrics` (lightweight, used for dashboards and time-series)
+- `GET /metrics/extended` (full payload, used for server detail view)
 
-Response:
+Response (basic):
 ```json
 {
   "cpu_usage": 12.4,
@@ -140,8 +141,20 @@ Notes:
 - Percent values are 0..100.
 - `collected_at` should be RFC3339.
 
+Response (extended):
+```json
+{
+  "meta": { "schema_version": 2 },
+  "system": { "hostname": "api-prod-03" },
+  "cpu": { "usage_total_percent": 12.4 },
+  "memory": { "total_mb": 16384 },
+  "disk": { "fs": [{ "mount": "/" }] },
+  "network": { "interfaces": [{ "name": "eth0" }] }
+}
+```
+
 See `agent/README.md` for details and releases:
-`https://github.com/maxzhirnov/stackscope/releases/tag/v0.0.4`.
+`https://github.com/maxzhirnov/stackscope/releases/tag/v0.0.5`.
 
 ## Authentication
 
