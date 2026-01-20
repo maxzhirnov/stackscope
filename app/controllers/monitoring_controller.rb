@@ -1,4 +1,11 @@
 class MonitoringController < ApplicationController
+  skip_before_action :verify_authenticity_token, only: %i[
+    toggle_servers
+    toggle_shortcuts
+    run_servers
+    run_shortcuts
+  ]
+
   def toggle_servers
     toggle("servers_checks_enabled")
     redirect_to root_path
