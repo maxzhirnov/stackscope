@@ -17,10 +17,11 @@
   <div class="note">
     <h3>How to install the agent</h3>
     <ol>
-      <li>Download a release binary: <a href="https://github.com/maxzhirnov/stackscope/releases/tag/v0.0.2" target="_blank" rel="noreferrer">v0.0.2</a></li>
-      <li>Linux amd64: <code>curl -L -o stackscope-agent https://github.com/maxzhirnov/stackscope/releases/download/v0.0.2/stackscope-agent-linux-amd64</code></li>
-      <li>Linux arm64 (Raspberry Pi 4): <code>curl -L -o stackscope-agent https://github.com/maxzhirnov/stackscope/releases/download/v0.0.2/stackscope-agent-linux-arm64</code></li>
-      <li>Or build locally: <code>cd agent &amp;&amp; go build -o stackscope-agent</code></li>
+      <li>One-line install (Linux): <code>curl -fsSL https://raw.githubusercontent.com/maxzhirnov/stackscope/main/agent/install.sh -o install.sh &amp;&amp; sudo bash install.sh</code></li>
+      <li>Download a release binary: <a href="https://github.com/maxzhirnov/stackscope/releases/tag/v0.0.5" target="_blank" rel="noreferrer">v0.0.5</a></li>
+      <li>Linux amd64: <code>curl -L -o stackscope-agent https://github.com/maxzhirnov/stackscope/releases/download/v0.0.5/stackscope-agent-linux-amd64</code></li>
+      <li>Linux arm64 (Raspberry Pi 4): <code>curl -L -o stackscope-agent https://github.com/maxzhirnov/stackscope/releases/download/v0.0.5/stackscope-agent-linux-arm64</code></li>
+      <li>Or build locally: <code>cd agent &amp;&amp; go build -ldflags "-X main.version=v0.0.5" -o stackscope-agent</code></li>
       <li>Run on the server: <code>STACKSCOPE_TOKEN="secret" ./stackscope-agent -addr ":9100"</code></li>
       <li>Set Agent URL to: <code>http://&lt;ip&gt;:9100/metrics</code></li>
       <li>If you use a token, set it in the Agent token field.</li>

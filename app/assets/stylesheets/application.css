@@ -216,10 +216,44 @@ p {
   font-weight: 700;
   cursor: pointer;
   padding: 0;
+  position: relative;
 }
 
 .icon-button:hover {
   border-color: rgba(31, 42, 46, 0.4);
+}
+
+.icon-button .spinner {
+  display: none;
+  width: 12px;
+  height: 12px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.icon-button.is-loading .spinner {
+  display: inline-block;
+}
+
+.icon-button.is-loading .icon-label {
+  visibility: hidden;
+}
+
+.icon-button.is-loading {
+  cursor: progress;
+}
+
+.icon-button .spinner::before {
+  content: "";
+  display: block;
+  width: 12px;
+  height: 12px;
+  border: 2px solid rgba(31, 42, 46, 0.2);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
 }
 
 .icon-button.tiny {
@@ -254,6 +288,21 @@ p {
   gap: 8px;
 }
 
+.card.is-loading::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(110deg, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0.2) 40%, rgba(255, 255, 255, 0.6) 80%);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s linear infinite;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.card.is-loading > * {
+  opacity: 0.4;
+}
+
 .card-action {
   position: absolute;
   right: 14px;
@@ -262,6 +311,12 @@ p {
 
 .card-action.icon-button {
   background: #f7f3ea;
+}
+
+.card--dashboard .card-meta {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 4px;
 }
 
 .card::after {
@@ -444,6 +499,15 @@ p {
 @keyframes spin {
   to {
     transform: rotate(360deg);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
   }
 }
 

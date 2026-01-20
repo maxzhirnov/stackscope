@@ -49,8 +49,17 @@
                   method: :post,
                   class: "icon-button tiny card-action",
                   title: "Check now",
-                  form: { data: { turbo_stream: true } } do %>
-      ↻
+                  data: { server_refresh_target: "button" },
+                  form: {
+                    data: {
+                      controller: "server-refresh",
+                      action: "turbo:submit-start->server-refresh#start turbo:submit-end->server-refresh#stop",
+                      turbo_stream: true,
+                      server_refresh_card_id_value: dom_id(server, :card)
+                    }
+                  } do %>
+      <span class="icon-label">↻</span>
+      <span class="spinner" aria-hidden="true"></span>
     <% end %>
   </article>
 </div>
