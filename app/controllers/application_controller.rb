@@ -10,7 +10,15 @@ class ApplicationController < ActionController::Base
 
   def set_time_zone
     zone = cookies[:timezone]
-    Time.zone = zone if zone.present? && ActiveSupport::TimeZone[zone]
+    return if zone.blank?
+
+    if ActiveSupport::TimeZone[zone]
+      Time.zone = zone
+    else
+      Time.zone = TZInfo::Timezone.get(zone)
+    end
+  rescue TZInfo::InvalidTimezoneIdentifier
+    nil
   end
 
   def ensure_admin_credentials
