@@ -3,6 +3,7 @@ require "net/http"
 require "uri"
 
 class ServersController < ApplicationController
+  skip_before_action :verify_authenticity_token, only: :check_now
   before_action :set_server, only: [:show, :edit, :update, :check_now, :destroy, :extended_metrics]
 
   def index
