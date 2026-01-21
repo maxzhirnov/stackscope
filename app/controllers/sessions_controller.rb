@@ -1,6 +1,7 @@
 class SessionsController < ApplicationController
   skip_before_action :require_login
   skip_before_action :ensure_admin_credentials
+  skip_before_action :verify_authenticity_token, only: :create
 
   def new
     redirect_to root_path if current_admin
