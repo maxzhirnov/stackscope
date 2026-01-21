@@ -1,6 +1,7 @@
 class TimezoneController < ApplicationController
   skip_before_action :require_login
   skip_before_action :ensure_admin_credentials
+  skip_before_action :verify_authenticity_token, only: :update
 
   def update
     zone = normalize_time_zone(params[:timezone])
